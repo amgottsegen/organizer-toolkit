@@ -5,6 +5,8 @@ app_description = "Tools for organizing constituents"
 app_email = "iglesiascrmtech@gmail.com"
 app_license = "mit"
 
+fixtures = ["Client Script"]
+
 # Apps
 # ------------------
 
@@ -241,4 +243,3 @@ app_license = "mit"
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
-

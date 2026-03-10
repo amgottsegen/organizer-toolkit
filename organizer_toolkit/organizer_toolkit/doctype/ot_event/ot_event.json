@@ -1,0 +1,64 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{event_name}",
+ "creation": "2026-03-10 11:44:32.149664",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "event_name",
+  "event_start",
+  "event_end",
+  "rsvphtml"
+ ],
+ "fields": [
+  {
+   "fieldname": "event_name",
+   "fieldtype": "Data",
+   "label": "Event Name"
+  },
+  {
+   "fieldname": "event_start",
+   "fieldtype": "Datetime",
+   "label": "Event Start"
+  },
+  {
+   "fieldname": "event_end",
+   "fieldtype": "Datetime",
+   "label": "Event End"
+  },
+  {
+   "fieldname": "rsvphtml",
+   "fieldtype": "HTML",
+   "label": "rsvphtml"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-03-10 12:06:15.734956",
+ "modified_by": "Administrator",
+ "module": "Organizer Toolkit",
+ "name": "OT Event",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
