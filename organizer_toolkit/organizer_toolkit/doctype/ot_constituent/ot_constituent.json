@@ -10,6 +10,9 @@
   "first_name",
   "last_name",
   "mobile_phone",
+  "home_phone",
+  "language",
+  "event_rsvps_tab",
   "event_rsvps"
  ],
  "fields": [
@@ -34,16 +37,34 @@
    "fieldtype": "Table",
    "label": "Event RSVPs",
    "options": "OT Event RSVP"
+  },
+  {
+   "default": "+1-",
+   "fieldname": "home_phone",
+   "fieldtype": "Phone",
+   "label": "Home Phone"
+  },
+  {
+   "fieldname": "event_rsvps_tab",
+   "fieldtype": "Tab Break",
+   "label": "Event RSVPs"
+  },
+  {
+   "default": "English",
+   "fieldname": "language",
+   "fieldtype": "Link",
+   "label": "Language",
+   "options": "OT Language"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-03-10 15:52:49.708713",
+ "modified": "2026-03-11 14:37:45.136449",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Constituent",
- "naming_rule": "Expression",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {
