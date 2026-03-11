@@ -8,8 +8,12 @@
  "field_order": [
   "event_name",
   "event_start",
+  "event_duration",
   "event_end",
-  "rsvphtml"
+  "rsvphtml",
+  "column_break_nmro",
+  "event_space",
+  "event_address"
  ],
  "fields": [
   {
@@ -31,16 +35,40 @@
    "fieldname": "rsvphtml",
    "fieldtype": "HTML",
    "label": "rsvphtml"
+  },
+  {
+   "fieldname": "event_duration",
+   "fieldtype": "Duration",
+   "hide_days": 1,
+   "hide_seconds": 1,
+   "label": "Event Duration"
+  },
+  {
+   "fieldname": "column_break_nmro",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "event_space",
+   "fieldtype": "Link",
+   "label": "Event Space",
+   "options": "OT Event Space"
+  },
+  {
+   "fetch_from": "event_space.street_address",
+   "fieldname": "event_address",
+   "fieldtype": "Data",
+   "label": "Event Address"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
+ "is_calendar_and_gantt": 1,
  "links": [],
- "modified": "2026-03-10 12:06:15.734956",
+ "modified": "2026-03-11 18:36:50.322438",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Event",
- "naming_rule": "Expression",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {
