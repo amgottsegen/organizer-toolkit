@@ -5,7 +5,7 @@ app_description = "Tools for organizing constituents"
 app_email = "iglesiascrmtech@gmail.com"
 app_license = "mit"
 
-fixtures = ["Client Script", "Number Card", {"dt": "OT Language"}]
+fixtures = ["Client Script", "Number Card", {"dt": "OT Language"}, {"dt": "OT Resident Type"}]
 
 # Apps
 # ------------------

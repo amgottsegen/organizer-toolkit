@@ -8,10 +8,18 @@
  "engine": "InnoDB",
  "field_order": [
   "first_name",
+  "preferred_name",
   "last_name",
   "mobile_phone",
   "home_phone",
   "language",
+  "email",
+  "column_break_miav",
+  "resident_type",
+  "street_address",
+  "city",
+  "state",
+  "postal_code",
   "event_rsvps_tab",
   "event_rsvps"
  ],
@@ -55,12 +63,55 @@
    "fieldtype": "Link",
    "label": "Language",
    "options": "OT Language"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "street_address",
+   "fieldtype": "Data",
+   "label": "Street Address"
+  },
+  {
+   "fieldname": "column_break_miav",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Philadelphia",
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "default": "PA",
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State"
+  },
+  {
+   "fieldname": "postal_code",
+   "fieldtype": "Data",
+   "label": "Postal Code"
+  },
+  {
+   "fieldname": "preferred_name",
+   "fieldtype": "Data",
+   "label": "Preferred Name"
+  },
+  {
+   "fieldname": "resident_type",
+   "fieldtype": "Link",
+   "label": "Resident Type",
+   "options": "OT Resident Type"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-03-11 14:37:45.136449",
+ "modified": "2026-03-11 17:45:05.730618",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Constituent",
