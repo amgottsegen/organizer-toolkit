@@ -1,0 +1,30 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "OT Resident Type",
+  "modified": "2026-03-11 17:42:12.199353",
+  "name": "Owner",
+  "resident_type": "Owner"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "OT Resident Type",
+  "modified": "2026-03-11 17:42:26.389296",
+  "name": "Renter",
+  "resident_type": "Renter"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "OT Resident Type",
+  "modified": "2026-03-11 17:42:41.330082",
+  "name": "PHA Tenant",
+  "resident_type": "PHA Tenant"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "OT Resident Type",
+  "modified": "2026-03-11 17:43:27.606114",
+  "name": "Homeless",
+  "resident_type": "Homeless"
+ }
+]
