@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_events_in_timeline": 1,
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "format:{first_name} {last_name} ({MM}-{DD}-{YYYY})",
  "creation": "2026-03-10 11:26:47.847841",
@@ -12,7 +13,8 @@
   "last_name",
   "mobile_phone",
   "home_phone",
-  "language",
+  "preferred_language",
+  "other_languages",
   "email",
   "column_break_miav",
   "resident_type",
@@ -58,13 +60,6 @@
    "label": "Event RSVPs"
   },
   {
-   "default": "English",
-   "fieldname": "language",
-   "fieldtype": "Link",
-   "label": "Language",
-   "options": "OT Language"
-  },
-  {
    "fieldname": "email",
    "fieldtype": "Data",
    "label": "Email",
@@ -106,12 +101,25 @@
    "fieldtype": "Link",
    "label": "Resident Type",
    "options": "OT Resident Type"
+  },
+  {
+   "default": "English",
+   "fieldname": "preferred_language",
+   "fieldtype": "Link",
+   "label": "Preferred Language",
+   "options": "OT Language"
+  },
+  {
+   "fieldname": "other_languages",
+   "fieldtype": "Table MultiSelect",
+   "label": "Other Languages",
+   "options": "OT Language Child"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-03-11 17:45:05.730618",
+ "modified": "2026-03-17 11:45:46.586101",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Constituent",
