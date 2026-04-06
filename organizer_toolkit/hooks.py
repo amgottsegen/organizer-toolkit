@@ -5,7 +5,15 @@ app_description = "Tools for organizing constituents"
 app_email = "iglesiascrmtech@gmail.com"
 app_license = "mit"
 
-fixtures = ["Client Script", "Number Card", {"dt": "OT Language"}, {"dt": "OT Resident Type"}]
+fixtures = [
+	"Client Script",
+	"Number Card",
+	{"dt": "OT Language"},
+	{"dt": "OT Resident Type"},
+	{"dt": "Custom DocPerm", "filters": [["role", "like", "OT%"]]},
+	{"dt": "Role", "filters": [["Name", "like", "OT%"]]},
+	{"dt": "Role Profile", "filters": [["Name", "like", "OT%"]]},
+]
 
 # Apps
 # ------------------

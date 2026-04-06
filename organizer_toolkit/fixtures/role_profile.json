@@ -1,0 +1,17 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "modified": "2026-04-06 16:53:51.964646",
+  "name": "OT Volunteer",
+  "role_profile": "OT Volunteer",
+  "roles": [
+   {
+    "parent": "OT Volunteer",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "OT Volunteer"
+   }
+  ]
+ }
+]

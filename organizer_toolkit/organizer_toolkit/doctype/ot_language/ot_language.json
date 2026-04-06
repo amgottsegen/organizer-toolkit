@@ -4,6 +4,7 @@
  "autoname": "field:language",
  "creation": "2026-03-11 14:32:19.730173",
  "doctype": "DocType",
+ "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
   "language"
@@ -24,7 +25,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-03-11 14:41:13.160381",
+ "modified": "2026-04-06 15:37:46.357859",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Language",
@@ -49,7 +50,7 @@
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "All",
+   "role": "Volunteer",
    "share": 1
   }
  ],
