@@ -9,6 +9,7 @@ fixtures = [
 	"Client Script",
 	"Number Card",
 	{"dt": "OT Language"},
+	{"dt": "OT Constituent Type"},
 	{"dt": "OT Resident Type"},
 	{"dt": "Custom DocPerm", "filters": [["role", "like", "OT%"]]},
 	{"dt": "Role", "filters": [["Name", "like", "OT%"]]},

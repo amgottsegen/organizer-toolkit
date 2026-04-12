@@ -1,0 +1,16 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "OT Constituent Type",
+  "modified": "2026-04-12 15:38:44.588754",
+  "name": "Member",
+  "type": "Member"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "OT Constituent Type",
+  "modified": "2026-04-12 15:38:51.535825",
+  "name": "Supporter",
+  "type": "Supporter"
+ }
+]
