@@ -11,6 +11,7 @@
   "first_name",
   "preferred_name",
   "last_name",
+  "full_name",
   "mobile_phone",
   "home_phone",
   "preferred_language",
@@ -114,12 +115,18 @@
    "fieldtype": "Table MultiSelect",
    "label": "Other Languages",
    "options": "OT Language Child"
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "label": "Full Name",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-04-07 13:48:44.756690",
+ "modified": "2026-04-12 15:11:25.856053",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Constituent",
@@ -150,9 +157,10 @@
  ],
  "row_format": "Dynamic",
  "rows_threshold_for_grid_search": 20,
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "first_name",
+ "title_field": "full_name",
  "track_changes": 1
 }
