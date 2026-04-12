@@ -10,7 +10,10 @@
   "last_contact_result",
   "rsvp",
   "rsvp_notes",
-  "additional_attendees_family_members_etc"
+  "needs_transportation",
+  "transportation_notes",
+  "needs_childcare",
+  "childcare_notes"
  ],
  "fields": [
   {
@@ -31,22 +34,40 @@
    "label": "RSVP Notes"
   },
   {
-   "fieldname": "additional_attendees_family_members_etc",
-   "fieldtype": "Int",
-   "label": "Additional attendees (family members, etc.)"
-  },
-  {
    "fieldname": "last_contact_result",
    "fieldtype": "Select",
    "label": "Last Contact Result",
    "options": "Not Contacted\nAnswered\nVoicemail\nDo Not Call"
+  },
+  {
+   "default": "0",
+   "fieldname": "needs_transportation",
+   "fieldtype": "Check",
+   "label": "Needs transportation?"
+  },
+  {
+   "fieldname": "transportation_notes",
+   "fieldtype": "Data",
+   "label": "Transportation Notes"
+  },
+  {
+   "default": "0",
+   "fieldname": "needs_childcare",
+   "fieldtype": "Check",
+   "label": "Needs childcare?"
+  },
+  {
+   "fieldname": "childcare_notes",
+   "fieldtype": "Data",
+   "label": "Childcare Notes",
+   "placeholder": "I.e. number of children and ages"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-04-07 13:56:56.322537",
+ "modified": "2026-04-12 15:34:44.041396",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Event RSVP",
