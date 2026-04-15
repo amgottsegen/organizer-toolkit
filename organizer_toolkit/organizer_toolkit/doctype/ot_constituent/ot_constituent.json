@@ -45,6 +45,7 @@
    "label": "Mobile Phone"
   },
   {
+   "allow_bulk_edit": 1,
    "fieldname": "event_rsvps",
    "fieldtype": "Table",
    "label": "Event RSVPs",
@@ -133,7 +134,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-04-12 15:40:01.275460",
+ "modified": "2026-04-15 11:43:48.490329",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Constituent",
