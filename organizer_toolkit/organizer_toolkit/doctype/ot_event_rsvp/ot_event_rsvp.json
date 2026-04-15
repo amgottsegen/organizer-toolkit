@@ -6,7 +6,6 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "rsvp_details_tab",
   "event",
   "last_contact_result",
   "rsvp",
@@ -15,7 +14,7 @@
   "transportation_notes",
   "needs_childcare",
   "childcare_notes",
-  "attendance_tab",
+  "column_break_nmhw",
   "attended"
  ],
  "fields": [
@@ -72,21 +71,15 @@
    "label": "Attended?"
   },
   {
-   "fieldname": "rsvp_details_tab",
-   "fieldtype": "Tab Break",
-   "label": "RSVP Details"
-  },
-  {
-   "fieldname": "attendance_tab",
-   "fieldtype": "Tab Break",
-   "label": "Attendance"
+   "fieldname": "column_break_nmhw",
+   "fieldtype": "Column Break"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-04-15 12:09:31.000782",
+ "modified": "2026-04-15 12:28:11.372102",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Event RSVP",
