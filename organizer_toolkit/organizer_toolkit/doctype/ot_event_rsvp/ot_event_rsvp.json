@@ -27,6 +27,8 @@
   {
    "fieldname": "rsvp",
    "fieldtype": "Select",
+   "in_filter": 1,
+   "in_standard_filter": 1,
    "label": "RSVP",
    "options": "-\nYes\nMaybe\nNo"
   },
@@ -79,7 +81,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-04-15 12:28:11.372102",
+ "modified": "2026-04-15 12:38:11.719650",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Event RSVP",

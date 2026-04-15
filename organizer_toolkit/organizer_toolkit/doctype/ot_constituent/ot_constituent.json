@@ -3,7 +3,6 @@
  "allow_events_in_timeline": 1,
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "format:{first_name} {last_name} ({MM}-{DD}-{YYYY})",
  "creation": "2026-03-10 11:26:47.847841",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -42,6 +41,7 @@
    "default": "+1-",
    "fieldname": "mobile_phone",
    "fieldtype": "Phone",
+   "in_list_view": 1,
    "label": "Mobile Phone"
   },
   {
@@ -71,6 +71,7 @@
   {
    "fieldname": "street_address",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Street Address"
   },
   {
@@ -127,6 +128,8 @@
   {
    "fieldname": "type",
    "fieldtype": "Link",
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Type",
    "options": "OT Constituent Type"
   }
@@ -134,11 +137,11 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-04-15 11:43:48.490329",
+ "modified": "2026-04-15 17:22:00.410776",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Constituent",
- "naming_rule": "Expression (old style)",
+ "naming_rule": "By script",
  "owner": "Administrator",
  "permissions": [
   {
