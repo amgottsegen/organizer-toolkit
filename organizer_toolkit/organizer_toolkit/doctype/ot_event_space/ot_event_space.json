@@ -56,7 +56,6 @@
    "label": "Contact Name"
   },
   {
-   "default": "+1-",
    "fieldname": "contact_phone",
    "fieldtype": "Phone",
    "label": "Contact Phone"
