@@ -1,9 +1,12 @@
 # Copyright (c) 2026, CREATE Lab and contributors
 # For license information, please see license.txt
 
-# import frappe
+import frappe
 from frappe.model.document import Document
 
 
 class OTEventSpace(Document):
-	pass
+	def validate(self):
+		# Clear invalid default phone value
+		if self.contact_phone == "+1-":
+			self.contact_phone = None
