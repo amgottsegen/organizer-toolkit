@@ -1,0 +1,100 @@
+[
+ {
+  "allowed_in_global_search": [
+   {
+    "document_type": "Contact",
+    "parent": "Global Search Settings",
+    "parentfield": "allowed_in_global_search",
+    "parenttype": "Global Search Settings"
+   },
+   {
+    "document_type": "Address",
+    "parent": "Global Search Settings",
+    "parentfield": "allowed_in_global_search",
+    "parenttype": "Global Search Settings"
+   },
+   {
+    "document_type": "ToDo",
+    "parent": "Global Search Settings",
+    "parentfield": "allowed_in_global_search",
+    "parenttype": "Global Search Settings"
+   },
+   {
+    "document_type": "Note",
+    "parent": "Global Search Settings",
+    "parentfield": "allowed_in_global_search",
+    "parenttype": "Global Search Settings"
+   },
+   {
+    "document_type": "Event",
+    "parent": "Global Search Settings",
+    "parentfield": "allowed_in_global_search",
+    "parenttype": "Global Search Settings"
+   },
+   {
+    "document_type": "Blog Post",
+    "parent": "Global Search Settings",
+    "parentfield": "allowed_in_global_search",
+    "parenttype": "Global Search Settings"
+   },
+   {
+    "document_type": "Dashboard",
+    "parent": "Global Search Settings",
+    "parentfield": "allowed_in_global_search",
+    "parenttype": "Global Search Settings"
+   },
+   {
+    "document_type": "Country",
+    "parent": "Global Search Settings",
+    "parentfield": "allowed_in_global_search",
+    "parenttype": "Global Search Settings"
+   },
+   {
+    "document_type": "Currency",
+    "parent": "Global Search Settings",
+    "parentfield": "allowed_in_global_search",
+    "parenttype": "Global Search Settings"
+   },
+   {
+    "document_type": "Newsletter",
+    "parent": "Global Search Settings",
+    "parentfield": "allowed_in_global_search",
+    "parenttype": "Global Search Settings"
+   },
+   {
+    "document_type": "Letter Head",
+    "parent": "Global Search Settings",
+    "parentfield": "allowed_in_global_search",
+    "parenttype": "Global Search Settings"
+   },
+   {
+    "document_type": "Workflow",
+    "parent": "Global Search Settings",
+    "parentfield": "allowed_in_global_search",
+    "parenttype": "Global Search Settings"
+   },
+   {
+    "document_type": "Web Page",
+    "parent": "Global Search Settings",
+    "parentfield": "allowed_in_global_search",
+    "parenttype": "Global Search Settings"
+   },
+   {
+    "document_type": "Web Form",
+    "parent": "Global Search Settings",
+    "parentfield": "allowed_in_global_search",
+    "parenttype": "Global Search Settings"
+   },
+   {
+    "document_type": "OT Constituent",
+    "parent": "Global Search Settings",
+    "parentfield": "allowed_in_global_search",
+    "parenttype": "Global Search Settings"
+   }
+  ],
+  "docstatus": 0,
+  "doctype": "Global Search Settings",
+  "modified": "2026-05-06 15:21:50.758824",
+  "name": "Global Search Settings"
+ }
+]

@@ -14,6 +14,7 @@ fixtures = [
 	{"dt": "Custom DocPerm"},
 	{"dt": "Role", "filters": [["Name", "like", "OT%"]]},
 	{"dt": "Role Profile", "filters": [["Name", "like", "OT%"]]},
+	{"dt": "Global Search Settings"},
 ]
 
 # Apps
