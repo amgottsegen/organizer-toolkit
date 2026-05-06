@@ -41,7 +41,10 @@
    "default": "+1-",
    "fieldname": "mobile_phone",
    "fieldtype": "Phone",
+   "in_filter": 1,
    "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Mobile Phone"
   },
   {
@@ -55,6 +58,7 @@
    "default": "+1-",
    "fieldname": "home_phone",
    "fieldtype": "Phone",
+   "in_preview": 1,
    "label": "Home Phone"
   },
   {
@@ -71,7 +75,11 @@
   {
    "fieldname": "street_address",
    "fieldtype": "Data",
+   "in_filter": 1,
+   "in_global_search": 1,
    "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Street Address"
   },
   {
@@ -122,6 +130,8 @@
   {
    "fieldname": "full_name",
    "fieldtype": "Data",
+   "in_global_search": 1,
+   "in_preview": 1,
    "label": "Full Name",
    "read_only": 1
   },
@@ -137,7 +147,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-04-15 17:22:00.410776",
+ "modified": "2026-05-06 15:50:25.495046",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Constituent",
@@ -168,9 +178,10 @@
  ],
  "row_format": "Dynamic",
  "rows_threshold_for_grid_search": 20,
+ "show_name_in_global_search": 1,
  "show_title_field_in_link": 1,
- "sort_field": "modified",
- "sort_order": "DESC",
+ "sort_field": "creation",
+ "sort_order": "ASC",
  "states": [],
  "title_field": "full_name",
  "track_changes": 1
