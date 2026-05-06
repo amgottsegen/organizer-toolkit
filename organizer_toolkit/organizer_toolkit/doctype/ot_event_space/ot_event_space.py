@@ -6,4 +6,6 @@ from frappe.model.document import Document
 
 
 class OTEventSpace(Document):
-	pass
+	def validate(self):
+		if self.contact_phone == "+1-":
+			self.contact_phone = None
