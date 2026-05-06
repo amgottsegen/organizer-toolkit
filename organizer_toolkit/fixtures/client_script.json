@@ -4,6 +4,17 @@
   "doctype": "Client Script",
   "dt": "OT Event",
   "enabled": 1,
+  "modified": "2026-05-05 11:50:02.499137",
+  "module": "Organizer Toolkit",
+  "name": "Invite OT Constituents",
+  "script": "frappe.ui.form.on('OT Event', {\n    refresh(frm) {\n        if (frm.is_new()) {\n            frm.add_custom_button(\"Invite Constituents\", () => {\n                new frappe.ui.form.MultiSelectDialog({\n                    doctype: \"OT Constituent\",\n            target: frm,\n            setters: {},\n            action(selected_constituents) {\n                selected_constituents.forEach(constituent => {\n                    let constituent_doc = frappe.model.get_doc(\"OT Constituent\", constituent);\n                  let rsvp = frappe.model.add_child(constituent_doc, \"event_rsvps\");\n                  rsvp.event = frm.doc.name;\n              })\n          }\n        });\n      });\n        }\n    }\n})",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "OT Event",
+  "enabled": 1,
   "modified": "2026-03-10 14:28:02.607060",
   "module": "Organizer Toolkit",
   "name": "Fetch RSVPs",

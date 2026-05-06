@@ -2,6 +2,12 @@
  {
   "allowed_in_global_search": [
    {
+    "document_type": "OT Constituent",
+    "parent": "Global Search Settings",
+    "parentfield": "allowed_in_global_search",
+    "parenttype": "Global Search Settings"
+   },
+   {
     "document_type": "Contact",
     "parent": "Global Search Settings",
     "parentfield": "allowed_in_global_search",
@@ -84,17 +90,11 @@
     "parent": "Global Search Settings",
     "parentfield": "allowed_in_global_search",
     "parenttype": "Global Search Settings"
-   },
-   {
-    "document_type": "OT Constituent",
-    "parent": "Global Search Settings",
-    "parentfield": "allowed_in_global_search",
-    "parenttype": "Global Search Settings"
    }
   ],
   "docstatus": 0,
   "doctype": "Global Search Settings",
-  "modified": "2026-05-06 15:21:50.758824",
+  "modified": "2026-05-06 16:03:46.493215",
   "name": "Global Search Settings"
  }
 ]
