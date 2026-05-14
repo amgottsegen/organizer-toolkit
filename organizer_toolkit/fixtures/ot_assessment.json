@@ -1,0 +1,47 @@
+[
+ {
+  "description": "Brings others into the organization",
+  "docstatus": 0,
+  "doctype": "OT Assessment",
+  "label": "Leader",
+  "level": 5,
+  "modified": "2026-05-14 17:10:28.926041",
+  "name": "5 - Leader"
+ },
+ {
+  "description": "Attends events regularly, engages in advocacy, etc.",
+  "docstatus": 0,
+  "doctype": "OT Assessment",
+  "label": "Activist",
+  "level": 4,
+  "modified": "2026-05-14 17:10:42.046573",
+  "name": "4 - Activist"
+ },
+ {
+  "description": "Attends events occasionally",
+  "docstatus": 0,
+  "doctype": "OT Assessment",
+  "label": "Participant",
+  "level": 3,
+  "modified": "2026-05-14 16:57:56.513189",
+  "name": "3 - Participant"
+ },
+ {
+  "description": "Interested in updates but doesn't participate",
+  "docstatus": 0,
+  "doctype": "OT Assessment",
+  "label": "Interested",
+  "level": 4,
+  "modified": "2026-05-14 16:56:48.403802",
+  "name": "2 - Interested"
+ },
+ {
+  "description": "Little to no engagement",
+  "docstatus": 0,
+  "doctype": "OT Assessment",
+  "label": "Passive",
+  "level": 5,
+  "modified": "2026-05-14 16:56:31.715300",
+  "name": "1 - Passive"
+ }
+]

@@ -11,6 +11,7 @@ fixtures = [
 	{"dt": "OT Language"},
 	{"dt": "OT Constituent Type"},
 	{"dt": "OT Resident Type"},
+	{"dt": "OT Assessment"},
 	{"dt": "Custom DocPerm"},
 	{"dt": "Role", "filters": [["Name", "like", "OT%"]]},
 	{"dt": "Role Profile", "filters": [["Name", "like", "OT%"]]},

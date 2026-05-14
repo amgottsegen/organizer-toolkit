@@ -8,6 +8,10 @@
  "engine": "InnoDB",
  "field_order": [
   "type",
+  "column_break_otet",
+  "assessment",
+  "assessed_level",
+  "section_break_zfzw",
   "first_name",
   "preferred_name",
   "last_name",
@@ -142,12 +146,33 @@
    "in_standard_filter": 1,
    "label": "Type",
    "options": "OT Constituent Type"
+  },
+  {
+   "fieldname": "assessment",
+   "fieldtype": "Link",
+   "label": "Assessment",
+   "options": "OT Assessment"
+  },
+  {
+   "fetch_from": "assessment.level",
+   "fieldname": "assessed_level",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Assessed Level"
+  },
+  {
+   "fieldname": "column_break_otet",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_zfzw",
+   "fieldtype": "Section Break"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-06 16:06:35.131682",
+ "modified": "2026-05-14 17:32:04.530699",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Constituent",
