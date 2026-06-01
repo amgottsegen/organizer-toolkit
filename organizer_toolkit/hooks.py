@@ -39,7 +39,7 @@ fixtures = [
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/organizer_toolkit/css/organizer_toolkit.css"
-# app_include_js = "/assets/organizer_toolkit/js/organizer_toolkit.js"
+app_include_js = ["/assets/organizer_toolkit/js/map_defaults.js"]
 
 # include js, css files in header of web template
 # web_include_css = "/assets/organizer_toolkit/css/organizer_toolkit.css"

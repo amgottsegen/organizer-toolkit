@@ -24,9 +24,12 @@
   "column_break_miav",
   "resident_type",
   "street_address",
+  "address_line_2",
   "city",
   "state",
   "postal_code",
+  "council_district",
+  "location",
   "event_rsvps_tab",
   "event_rsvps"
  ],
@@ -167,12 +170,27 @@
   {
    "fieldname": "section_break_zfzw",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Geolocation",
+   "label": "Location"
+  },
+  {
+   "fieldname": "address_line_2",
+   "fieldtype": "Data",
+   "label": "Address Line 2"
+  },
+  {
+   "fieldname": "council_district",
+   "fieldtype": "Data",
+   "label": "Council District"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-14 17:32:04.530699",
+ "modified": "2026-06-01 12:33:05.022460",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Constituent",

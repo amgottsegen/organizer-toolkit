@@ -3,22 +3,6 @@ import json
 import frappe
 from frappe.desk.doctype.tag.tag import get_tagged_docs, remove_tag
 
-# @frappe.whitelist()
-# def remove_tags_from_doctype(tags, doctype="OT Constituent"):
-# 	if isinstance(tags, str):
-# 		tags = json.loads(tags)
-
-# 	for tag in tags:
-# 		# Get all docs with this tag using Frappe's own method
-# 		affected = get_tagged_docs(doctype, f"%{tag}%")
-
-# 		# Remove the tag from each doc using Frappe's own method
-# 		for (doc_name,) in affected:
-# 			remove_tag(tag=tag, dt=doctype, dn=doc_name)
-
-# 	frappe.db.commit()
-# 	return {"removed": tags}
-
 
 @frappe.whitelist()
 def get_tags_for_docs(doctype, doc_names):

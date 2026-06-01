@@ -8,9 +8,43 @@ frappe.listview_settings["OT Constituent"] = {
 
 frappe.listview_settings["OT Constituent"] = frappe.listview_settings["OT Constituent"] || {};
 
-frappe.listview_settings["OT Constituent"].onload = function (listview) {
+
+frappe.listview_settings["OT Constituent"].onload = function(listview) {
     listview.page.add_actions_menu_item("Clear Tags", () => showClearTagsDialog(listview));
+    listview.page.add_actions_menu_item("Geocode Addresses", () => geocodeSelected(listview));
 };
+
+function geocodeSelected(listview) {
+    const selected = listview.get_checked_items();
+
+    if (!selected.length) {
+        frappe.msgprint("Please select at least one constituent.");
+        return;
+    }
+    if (selected.length > 10){
+        frappe.throw("Please select no more than 10 constituents at a time to avoid hitting geocoding rate limits.");
+    }
+
+    frappe.confirm(
+        `Geocode addresses for <strong>${selected.length} selected record(s)</strong>?`,
+        () => {
+            const calls = selected.map(r =>
+                frappe.call({
+                    method: "organizer_toolkit.organizer_toolkit.doctype.ot_constituent.ot_constituent.geocode_address",
+                    args: { doc_name: r.name },
+                })
+            );
+
+            Promise.all(calls).then(() => {
+                frappe.show_alert({
+                    message: `Geocoded ${selected.length} constituent(s)`,
+                    indicator: "green",
+                });
+                listview.refresh();
+            });
+        }
+    );
+}
 
 function showClearTagsDialog(listview) {
     const selected = listview.get_checked_items();
@@ -92,3 +126,4 @@ function showClearTagsDialog(listview) {
         },
     });
 }
+
