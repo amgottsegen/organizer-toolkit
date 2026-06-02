@@ -4,6 +4,15 @@ import frappe
 from frappe.desk.doctype.tag.tag import get_tagged_docs, remove_tag
 
 
+@frappe.whitelist(allow_guest=False)
+def fetch_ot_constituents(doctype, txt, searchfield, start, page_len, filters):
+	frappe.only_for("System Manager")
+
+	constituents = frappe.get_all("OT Constituent", filters=filters, fields=["*"])
+
+	frappe.response["message"] = constituents
+
+
 @frappe.whitelist()
 def get_tags_for_docs(doctype, doc_names):
 
