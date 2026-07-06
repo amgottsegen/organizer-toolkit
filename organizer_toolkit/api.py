@@ -2,6 +2,25 @@ import json
 
 import frappe
 from frappe.desk.doctype.tag.tag import get_tagged_docs, remove_tag
+from rapidfuzz import fuzz
+
+
+@frappe.whitelist()
+def compare_against_name_and_address(first_name, last_name, street_address):
+	constituents = frappe.get_all(
+		"OT Constituent", fields=["name", "first_name", "last_name", "street_address"]
+	)
+	left = f"{first_name} {last_name} {street_address}"
+	similar_constituents = []
+
+	for constituent in constituents:
+		right = f"{constituent.first_name} {constituent.last_name} {constituent.street_address}"
+		similarity = fuzz.ratio(left, right)
+
+		if similarity > 75.0:
+			similar_constituents.append(constituent)
+
+	return similar_constituents
 
 
 @frappe.whitelist(allow_guest=False)

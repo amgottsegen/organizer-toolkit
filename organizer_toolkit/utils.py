@@ -1,5 +1,6 @@
 import frappe
 from geopy.geocoders import Nominatim
+from rapidfuzz import fuzz
 
 
 @frappe.whitelist()

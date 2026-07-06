@@ -8,10 +8,6 @@
  "engine": "InnoDB",
  "field_order": [
   "type",
-  "column_break_otet",
-  "assessment",
-  "assessed_level",
-  "section_break_zfzw",
   "first_name",
   "preferred_name",
   "last_name",
@@ -24,14 +20,12 @@
   "column_break_miav",
   "resident_type",
   "street_address",
-  "address_line_2",
   "city",
   "state",
   "postal_code",
-  "council_district",
-  "location",
   "event_rsvps_tab",
-  "event_rsvps"
+  "event_rsvps",
+  "events_attending"
  ],
  "fields": [
   {
@@ -52,7 +46,8 @@
    "in_list_view": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
-   "label": "Mobile Phone"
+   "label": "Mobile Phone",
+   "search_index": 1
   },
   {
    "allow_bulk_edit": 1,
@@ -151,46 +146,17 @@
    "options": "OT Constituent Type"
   },
   {
-   "fieldname": "assessment",
-   "fieldtype": "Link",
-   "label": "Assessment",
-   "options": "OT Assessment"
-  },
-  {
-   "fetch_from": "assessment.level",
-   "fieldname": "assessed_level",
+   "default": "0",
+   "fieldname": "events_attending",
    "fieldtype": "Int",
-   "hidden": 1,
-   "label": "Assessed Level"
-  },
-  {
-   "fieldname": "column_break_otet",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "section_break_zfzw",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "location",
-   "fieldtype": "Geolocation",
-   "label": "Location"
-  },
-  {
-   "fieldname": "address_line_2",
-   "fieldtype": "Data",
-   "label": "Address Line 2"
-  },
-  {
-   "fieldname": "council_district",
-   "fieldtype": "Data",
-   "label": "Council District"
+   "label": "Events Attending",
+   "non_negative": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-06-01 12:33:05.022460",
+ "modified": "2026-06-16 11:29:27.143405",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Constituent",
