@@ -1,0 +1,32 @@
+{
+ "add_total_row": 0,
+ "add_translate_data": 0,
+ "columns": ["ID","First Name","Last Name","Mobile Phone","Home Phone","Email","Street Address","Address Line 2","Resident Type","Lot Address","Lot Status","Date Joined","Council District","Next Dues Payment","Preferred Language","Preferred Name","Assessment","Dues Status","Type","Language (OT Language Child)"],
+ "creation": "2026-07-09 16:10:41.173134",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "json": "{}",
+ "letter_head": null,
+ "modified": "2026-07-09 16:10:41.173134",
+ "modified_by": "Administrator",
+ "module": "Organizer Toolkit",
+ "name": "All Constituents Basic Info",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "OT Constituent",
+ "report_name": "All Constituents Basic Info",
+ "report_type": "Report Builder",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "OT Volunteer"
+  }
+ ],
+ "timeout": 0
+}
