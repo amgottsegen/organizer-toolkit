@@ -161,6 +161,12 @@ app_include_js = ["/assets/organizer_toolkit/js/map_defaults.js"]
 # Scheduled Tasks
 # ---------------
 
+scheduler_events = {
+	"daily": [
+		"organizer_toolkit.tasks.report_to_drive.upload_daily_report_to_drive",
+	]
+}
+
 # scheduler_events = {
 # 	"all": [
 # 		"organizer_toolkit.tasks.all"
