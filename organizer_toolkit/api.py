@@ -69,3 +69,12 @@ def remove_tags_from_docs(tags, doctype, doc_names):
 
 	frappe.db.commit()
 	return {"removed": tags}
+
+
+@frappe.whitelist()
+def add_event_rsvp(constituent, event_name):
+	doc = frappe.get_doc("OT Constituent", constituent)
+	rsvp = doc.append("event_rsvps")
+	rsvp.event = event_name
+
+	doc.save()
