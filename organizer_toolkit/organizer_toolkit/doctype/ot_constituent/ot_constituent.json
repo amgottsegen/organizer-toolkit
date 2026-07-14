@@ -7,12 +7,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "status_section",
   "type",
-  "column_break_otet",
-  "assessment",
-  "assessed_level",
-  "section_break_zfzw",
   "first_name",
   "preferred_name",
   "last_name",
@@ -25,21 +20,12 @@
   "column_break_miav",
   "resident_type",
   "street_address",
-  "address_line_2",
   "city",
   "state",
   "postal_code",
-  "council_district",
-  "location",
-  "dues_and_lots_section",
-  "date_joined",
-  "dues_note",
-  "next_dues_payment",
-  "column_break_umkn",
-  "lot_address",
-  "lot_status",
   "event_rsvps_tab",
-  "event_rsvps"
+  "event_rsvps",
+  "events_attended"
  ],
  "fields": [
   {
@@ -60,7 +46,8 @@
    "in_list_view": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
-   "label": "Mobile Phone"
+   "label": "Mobile Phone",
+   "search_index": 1
   },
   {
    "allow_bulk_edit": 1,
@@ -159,85 +146,17 @@
    "options": "OT Constituent Type"
   },
   {
-   "fieldname": "status_section",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_otet",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "assessment",
-   "fieldtype": "Link",
-   "label": "Assessment",
-   "options": "OT Assessment"
-  },
-  {
-   "fetch_from": "assessment.level",
-   "fieldname": "assessed_level",
+   "default": "0",
+   "fieldname": "events_attended",
    "fieldtype": "Int",
-   "hidden": 1,
-   "label": "Assessed Level"
-  },
-  {
-   "fieldname": "section_break_zfzw",
-   "fieldtype": "Section Break",
-   "label": "Basic Info"
-  },
-  {
-   "fieldname": "address_line_2",
-   "fieldtype": "Data",
-   "label": "Address Line 2"
-  },
-  {
-   "fieldname": "council_district",
-   "fieldtype": "Data",
-   "label": "Council District"
-  },
-  {
-   "fieldname": "location",
-   "fieldtype": "Geolocation",
-   "label": "Location"
-  },
-  {
-   "fieldname": "dues_and_lots_section",
-   "fieldtype": "Section Break",
-   "label": "Dues and Lots"
-  },
-  {
-   "fieldname": "date_joined",
-   "fieldtype": "Date",
-   "label": "Date Joined"
-  },
-  {
-   "fieldname": "dues_note",
-   "fieldtype": "Data",
-   "label": "Dues Status"
-  },
-  {
-   "fieldname": "column_break_umkn",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "lot_address",
-   "fieldtype": "Data",
-   "label": "Lot Address"
-  },
-  {
-   "fieldname": "lot_status",
-   "fieldtype": "Data",
-   "label": "Lot Status"
-  },
-  {
-   "fieldname": "next_dues_payment",
-   "fieldtype": "Date",
-   "label": "Next Dues Payment"
+   "label": "Events Attended",
+   "non_negative": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-08 14:25:32.135368",
+ "modified": "2026-07-14 07:48:44.452007",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Constituent",
