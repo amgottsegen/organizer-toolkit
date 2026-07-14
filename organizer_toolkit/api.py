@@ -7,6 +7,9 @@ from rapidfuzz import fuzz
 
 @frappe.whitelist()
 def compare_against_name_and_address(first_name, last_name, street_address):
+	if street_address is None or street_address.strip() == "":
+		return []
+
 	constituents = frappe.get_all(
 		"OT Constituent", fields=["name", "first_name", "last_name", "street_address"]
 	)
