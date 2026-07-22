@@ -164,6 +164,7 @@ app_include_js = ["/assets/organizer_toolkit/js/map_defaults.js"]
 scheduler_events = {
 	"daily": [
 		"organizer_toolkit.tasks.report_to_drive.upload_daily_report_to_drive",
+		"organizer_toolkit.doorknocking.doorknocking_map.generate_doorknocking_map",
 	]
 }
 
