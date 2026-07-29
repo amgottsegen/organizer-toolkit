@@ -178,7 +178,12 @@ scheduler_events = {
 	"daily": [
 		"organizer_toolkit.tasks.report_to_drive.upload_daily_report_to_drive",
 		"organizer_toolkit.doorknocking.doorknocking_map.generate_doorknocking_map",
-	]
+	],
+	# Drains the backlog of addresses with no coordinates a batch at a time, paced for
+	# Nominatim's one-request-per-second limit. No-ops once everything is geocoded.
+	"hourly_long": [
+		"organizer_toolkit.tasks.geocode_backfill.run",
+	],
 }
 
 # scheduler_events = {

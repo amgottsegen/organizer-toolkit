@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\": \"_yPHJWGjH6\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h1\\\">Home</span>\", \"col\": 12}}, {\"id\": \"whTKNELcmB\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Constituent\", \"col\": 5}}, {\"id\": \"LW83gXBf6i\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Events\", \"col\": 5}}, {\"id\": \"koRJv7-lVl\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"QveiQbvbmp\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\">Constituents</span>\", \"col\": 9}}, {\"id\": \"QBrpPKn3QU\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Members\", \"col\": 9}}, {\"id\": \"rcnyMUUFL1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Supporters\", \"col\": 9}}, {\"id\": \"otDoorknockHdr\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\">Doorknocking</span>\", \"col\": 9}}, {\"id\": \"otDoorknockS0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Record New Doorknock\", \"col\": 9}}, {\"id\": \"otDoorknockS1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Canvass Log\", \"col\": 9}}, {\"id\": \"otDoorknockS2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Addresses\", \"col\": 9}}, {\"id\": \"-bmIznf-0N\", \"type\": \"card\", \"data\": {\"card_name\": \"Events\", \"col\": 4}}, {\"id\": \"lnVVJMMoMV\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Forms</b></span>\", \"col\": 12}}, {\"id\": \"GfGwuV2xM2\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"Data Entry Forms\", \"col\": 6}}]",
+ "content": "[{\"id\": \"_yPHJWGjH6\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h1\\\">Home</span>\", \"col\": 12}}, {\"id\": \"whTKNELcmB\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Constituent\", \"col\": 5}}, {\"id\": \"LW83gXBf6i\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Events\", \"col\": 5}}, {\"id\": \"koRJv7-lVl\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"QveiQbvbmp\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\">Constituents</span>\", \"col\": 9}}, {\"id\": \"QBrpPKn3QU\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Members\", \"col\": 9}}, {\"id\": \"rcnyMUUFL1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Supporters\", \"col\": 9}}, {\"id\": \"otDoorknockHdr\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\">Doorknocking</span>\", \"col\": 9}}, {\"id\": \"otDoorknockS0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Record New Doorknock\", \"col\": 9}}, {\"id\": \"otDoorknockS1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Canvass Log\", \"col\": 9}}, {\"id\": \"otDoorknockMap\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Doorknock Map\", \"col\": 9}}, {\"id\": \"otDoorknockS2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Addresses\", \"col\": 9}}, {\"id\": \"-bmIznf-0N\", \"type\": \"card\", \"data\": {\"card_name\": \"Events\", \"col\": 4}}, {\"id\": \"lnVVJMMoMV\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Forms</b></span>\", \"col\": 12}}, {\"id\": \"GfGwuV2xM2\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"Data Entry Forms\", \"col\": 6}}]",
  "creation": "2026-03-10 14:16:37.321198",
  "custom_blocks": [],
  "docstatus": 0,
@@ -33,7 +33,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-07-29 13:00:00.000000",
+ "modified": "2026-07-29 14:00:00.000000",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "Home",
@@ -96,6 +96,12 @@
    "label": "Addresses",
    "link_to": "OT Address",
    "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "label": "Doorknock Map",
+   "type": "URL",
+   "url": "/app/ot-canvass-attempt/view/map"
   }
  ],
  "title": "Home"

@@ -24,7 +24,8 @@
   "notes",
   "follow_up_section",
   "follow_up_needed",
-  "follow_up_notes"
+  "follow_up_notes",
+  "location"
  ],
  "fields": [
   {
@@ -155,6 +156,13 @@
    "fieldtype": "Table MultiSelect",
    "label": "Volunteers For",
    "options": "OT Activity Child"
+  },
+  {
+   "fetch_from": "address.location",
+   "fieldname": "location",
+   "fieldtype": "Geolocation",
+   "label": "Location",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,

@@ -266,6 +266,8 @@ def regenerate_on_constituent_change(doc, method=None):
 	frappe.enqueue(
 		"organizer_toolkit.doorknocking.doorknocking_map.generate_doorknocking_map",
 		queue="short",
-		job_name="regenerate_doorknocking_map",
+		# deduplicate keys off job_id; passing job_name raises "job_id parameter is
+		# required for deduplication". Latent until the doc_events hook is enabled.
+		job_id="regenerate_doorknocking_map",
 		deduplicate=True,  # skip if one's already queued
 	)

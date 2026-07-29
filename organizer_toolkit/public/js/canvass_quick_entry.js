@@ -57,6 +57,52 @@ frappe.ui.form.OTAddressQuickEntryForm = class OTAddressQuickEntryForm extends f
     set_defaults() {
         super.set_defaults();
         this.apply_block_context();
+        this.request_device_location();
+    }
+
+    // A canvasser filling this in is standing at the door, so the phone's own position
+    // is both instant and usually better than a geocoder's rooftop guess. Requested as
+    // the dialog opens so the fix has arrived by the time they hit Save -- which also
+    // means OT Address.after_insert sees a location and skips queueing Nominatim.
+    request_device_location() {
+        this._device_fix = null;
+
+        if (!navigator.geolocation) return;
+        // Only when logging a door, not when editing an address from the desk.
+        if (!cur_frm || !cur_frm.doc || cur_frm.doc.doctype !== "OT Canvass Attempt") return;
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this._device_fix = {
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude,
+                };
+            },
+            () => {
+                // Denied, unavailable, or timed out -- the background geocoder covers it.
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+        );
+    }
+
+    // GeoJSON orders coordinates [longitude, latitude]; this mirrors
+    // address_utils.build_location_geojson on the server.
+    device_location_geojson() {
+        if (!this._device_fix) return null;
+
+        return JSON.stringify({
+            type: "FeatureCollection",
+            features: [
+                {
+                    type: "Feature",
+                    geometry: {
+                        type: "Point",
+                        coordinates: [this._device_fix.lon, this._device_fix.lat],
+                    },
+                    properties: {},
+                },
+            ],
+        });
     }
 
     apply_block_context() {
@@ -89,6 +135,13 @@ frappe.ui.form.OTAddressQuickEntryForm = class OTAddressQuickEntryForm extends f
     }
 
     insert() {
+        // Attach the fix before the round trip so the address is created already
+        // located -- the server then has no reason to queue a geocoding job for it.
+        const fix = this.device_location_geojson();
+        if (fix && this.dialog.doc && !this.dialog.doc.location) {
+            this.dialog.doc.location = fix;
+        }
+
         return super.insert().then((doc) => {
             // `always` resolves this promise on failure too, so only remember the block
             // once the address genuinely saved.

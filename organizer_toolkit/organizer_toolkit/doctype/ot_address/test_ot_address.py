@@ -1,9 +1,16 @@
 # Copyright (c) 2026, CREATE Lab and contributors
 # See license.txt
+from unittest.mock import patch
+
 import frappe
 from frappe.tests.utils import FrappeTestCase
 
-from organizer_toolkit.address_utils import build_address_key, normalize_street, normalize_unit
+from organizer_toolkit.address_utils import (
+	build_address_key,
+	build_location_geojson,
+	normalize_street,
+	normalize_unit,
+)
 
 
 class TestAddressKey(FrappeTestCase):
@@ -109,6 +116,107 @@ class TestOTAddress(FrappeTestCase):
 		second = find_or_create_address("1423 s. 52nd st.", None, "Philadelphia", "PA", "19143")
 
 		self.assertEqual(first.name, second.name)
+
+
+class TestAddressGeocoding(FrappeTestCase):
+	"""Coordinates reach an address from three directions -- the geocode button, a
+	device GPS fix at the door, and the background backfill. They must all land the same
+	way, and a late arrival has to reach the doorknocks already recorded there."""
+
+	# A real point in Philadelphia, inside a council district.
+	PHILLY = (39.99026, -75.14601)
+
+	def tearDown(self):
+		frappe.db.rollback()
+
+	def _address(self, **kwargs):
+		defaults = {
+			"doctype": "OT Address",
+			"address_line_1": "930 Geocode Test St",
+			"city": "Philadelphia",
+			"state": "PA",
+		}
+		defaults.update(kwargs)
+
+		return frappe.get_doc(defaults).insert()
+
+	def test_geocoding_is_queued_for_an_address_with_no_coordinates(self):
+		with patch("frappe.enqueue") as enqueue:
+			self._address()
+
+		self.assertTrue(enqueue.called, "an unlocated address should queue a lookup")
+
+	def test_geocoding_is_not_queued_when_the_device_supplied_a_fix(self):
+		"""The canvasser's phone already answered the question -- spending a Nominatim
+		request on it would be waste against a rate-limited service."""
+		with patch("frappe.enqueue") as enqueue:
+			self._address(location=build_location_geojson(*self.PHILLY))
+
+		self.assertFalse(enqueue.called)
+
+	def test_district_is_derived_from_whatever_set_the_location(self):
+		"""before_save owns this, so a device fix gets a district just like a geocode."""
+		with patch("frappe.enqueue"):
+			address = self._address(location=build_location_geojson(*self.PHILLY))
+
+		self.assertIsNotNone(address.municipal_district)
+		self.assertNotEqual(address.latitude, 0)
+
+	def test_location_propagates_to_doorknocks_already_recorded(self):
+		"""fetch_from copies once at save time. Without propagation the backfill would
+		fix addresses while the map stayed empty."""
+		with patch("frappe.enqueue"):
+			address = self._address()
+
+		attempt = frappe.get_doc(
+			{"doctype": "OT Canvass Attempt", "address": address.name, "outcome": "No answer"}
+		).insert()
+		self.assertFalse(attempt.location, "should start with no coordinates")
+
+		address.location = build_location_geojson(*self.PHILLY)
+		address.save()
+
+		self.assertTrue(
+			frappe.db.get_value("OT Canvass Attempt", attempt.name, "location"),
+			"the recorded doorknock should have picked up the new coordinates",
+		)
+
+
+class TestGeocodeBackfill(FrappeTestCase):
+	"""`frappe.db.commit` is patched throughout: the real job commits after each address
+	so one failure late in a batch cannot discard sixty successful lookups, but an actual
+	commit inside a test ends the transaction and breaks isolation for everything after
+	it. Nominatim is patched out too -- tests must never make network calls."""
+
+	def tearDown(self):
+		frappe.db.rollback()
+
+	def test_backfill_only_touches_addresses_without_coordinates(self):
+		from organizer_toolkit.tasks import geocode_backfill
+
+		with patch("organizer_toolkit.tasks.geocode_backfill.geocode") as geocode, patch(
+			"frappe.db.commit"
+		), patch("frappe.enqueue"):
+			geocode_backfill.run(batch_size=5, pace=0)
+
+		self.assertTrue(geocode.called, "there are ungeocoded addresses to work through")
+		for call in geocode.call_args_list:
+			self.assertFalse(
+				call.args[0].location, "an already-located address must not be re-geocoded"
+			)
+
+	def test_backfill_is_a_noop_when_nothing_is_pending(self):
+		from organizer_toolkit.tasks import geocode_backfill
+
+		with patch(
+			"organizer_toolkit.tasks.geocode_backfill.frappe.get_all", return_value=[]
+		), patch("organizer_toolkit.tasks.geocode_backfill.geocode") as geocode, patch(
+			"frappe.db.commit"
+		):
+			result = geocode_backfill.run(batch_size=5, pace=0)
+
+		self.assertIsNone(result)
+		self.assertFalse(geocode.called)
 
 
 class TestVolunteerPermissions(FrappeTestCase):
