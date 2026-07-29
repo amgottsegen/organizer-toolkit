@@ -12,7 +12,12 @@ fixtures = [
 	{"dt": "OT Constituent Type"},
 	{"dt": "OT Resident Type"},
 	{"dt": "OT Assessment"},
-	{"dt": "Custom DocPerm"},
+	# Custom DocPerm is deliberately NOT a fixture. Permissions for doctypes this app
+	# owns live in their doctype JSON. A Custom DocPerm row shadows the JSON entirely
+	# (see frappe/model/meta.py Meta.set_custom_permissions), so exporting them here
+	# would re-import the shadowing rows on every migrate and silently override the
+	# permissions in source. Editing permissions via the desk UI recreates them --
+	# change the doctype JSON and migrate instead.
 	{"dt": "Role", "filters": [["Name", "like", "OT%"]]},
 	{"dt": "Role Profile", "filters": [["Name", "like", "OT%"]]},
 	{"dt": "Global Search Settings"},

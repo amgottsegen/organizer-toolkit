@@ -149,6 +149,64 @@ class TestVolunteerPermissions(FrappeTestCase):
 		self.assertTrue(frappe.has_permission("OT Constituent", "read"))
 		self.assertFalse(frappe.has_permission("OT Constituent", "delete"))
 
+	def test_organizer_reaches_every_toolkit_doctype(self):
+		"""Staff organizers are meant to see everything in the toolkit.
+
+		Guards against the easy mistake of adding a doctype and forgetting the role --
+		which is exactly how OT Organizer originally ended up with no access to Events,
+		Assessments, Languages, Constituent Types, Event Spaces or Resident Types.
+		Child tables are excluded: they inherit their parent's permissions."""
+		doctypes = frappe.get_all(
+			"DocType",
+			filters={"module": "Organizer Toolkit", "istable": 0},
+			pluck="name",
+		)
+		self.assertTrue(doctypes, "expected some Organizer Toolkit doctypes")
+
+		missing = [
+			doctype
+			for doctype in doctypes
+			if not any(p.role == "OT Organizer" for p in frappe.get_meta(doctype).permissions)
+		]
+
+		self.assertEqual(missing, [], f"OT Organizer has no permissions on: {missing}")
+
+	def test_no_custom_docperm_shadows_toolkit_doctypes(self):
+		"""Permissions for doctypes this app owns must come from their doctype JSON.
+
+		A single Custom DocPerm row replaces a doctype's whole permission list
+		(frappe/model/meta.py, Meta.set_custom_permissions), so the array in source
+		becomes dead code -- that is how adding OT Organizer to ot_constituent.json
+		once appeared to work while granting nothing. Editing permissions in the desk
+		UI recreates these rows, so this test is the tripwire for that happening."""
+		toolkit_doctypes = frappe.get_all(
+			"DocType", filters={"module": "Organizer Toolkit"}, pluck="name"
+		)
+		shadowed = frappe.get_all(
+			"Custom DocPerm",
+			filters={"parent": ["in", toolkit_doctypes]},
+			distinct=True,
+			pluck="parent",
+		)
+
+		self.assertEqual(
+			shadowed,
+			[],
+			f"Custom DocPerm rows are overriding the doctype JSON for: {shadowed}. "
+			"Move the intended permissions into the doctype JSON and delete these rows.",
+		)
+
+	def test_volunteer_can_read_link_target_doctypes(self):
+		"""Link fields on the constituent form are unusable if the volunteer cannot read
+		the target doctype -- the picker silently returns nothing."""
+		frappe.set_user(self.VOLUNTEER)
+
+		for doctype in ("OT Constituent Type", "OT Resident Type", "OT Language", "OT Assessment"):
+			self.assertTrue(
+				frappe.has_permission(doctype, "read"),
+				f"OT Volunteer needs read on {doctype} for the link picker to work",
+			)
+
 	def test_organizer_has_full_access_to_constituents(self):
 		"""Regression guard: OT Organizer lives in the Custom DocPerm fixture, not the
 		doctype JSON. If it is ever added to only the JSON this fails."""
