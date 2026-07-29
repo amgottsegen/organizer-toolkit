@@ -42,6 +42,19 @@ def _parcel_link(address):
 	return f'<a class="btn btn-light" role="button" href="{url}" target="_blank">Property Records</a>'
 
 
+def _log_visit_url(address_line_1):
+	"""Deep link into the canvass form with the street prefilled.
+
+	Replaces the JotForm hand-off this map used to send canvassers to -- visits now land
+	in OT Canvass Attempt instead of a second system nobody could report on.
+	"""
+	from urllib.parse import urlencode
+
+	query = urlencode({"address_line_1": address_line_1 or ""})
+
+	return f"/app/ot-canvass-attempt/new?{query}"
+
+
 def _build_base_map():
 	# token = frappe.conf.get("mapbox_token")
 
@@ -108,8 +121,7 @@ def _add_static_layers(m):
 				href="https://www.google.com/maps/search/{row.location}" target="_blank">Google Maps</a>
 				<br><br>
 				<a class="btn btn-outline-success btn-lg" role="button"
-				href="https://jotform.com/251974322359059?lotAddress={row.location}"
-				target="_blank">Enter survey notes</a><br><br>
+				href="{_log_visit_url(row.location)}">Log a visit</a><br><br>
 			</div>
 			"""
 			folium.CircleMarker(
@@ -138,8 +150,7 @@ def _add_static_layers(m):
 				href="https://www.google.com/maps/search/{row.location}" target="_blank">Google Maps</a>
 				<br><br>
 				<a class="btn btn-outline-success btn-lg" role="button"
-				href="https://jotform.com/251974322359059?lotAddress={row.location}"
-				target="_blank">Enter survey notes</a><br><br>
+				href="{_log_visit_url(row.location)}">Log a visit</a><br><br>
 			</div>
 			"""
 			folium.CircleMarker(

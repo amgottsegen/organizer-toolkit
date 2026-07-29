@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"_yPHJWGjH6\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h1\\\">Home</span>\",\"col\":12}},{\"id\":\"whTKNELcmB\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Constituent\",\"col\":5}},{\"id\":\"LW83gXBf6i\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Events\",\"col\":5}},{\"id\":\"koRJv7-lVl\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"QveiQbvbmp\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Constituents</span>\",\"col\":9}},{\"id\":\"QBrpPKn3QU\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Members\",\"col\":9}},{\"id\":\"rcnyMUUFL1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Supporters\",\"col\":9}},{\"id\":\"-bmIznf-0N\",\"type\":\"card\",\"data\":{\"card_name\":\"Events\",\"col\":4}}]",
+ "content": "[{\"id\": \"_yPHJWGjH6\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h1\\\">Home</span>\", \"col\": 12}}, {\"id\": \"whTKNELcmB\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Constituent\", \"col\": 5}}, {\"id\": \"LW83gXBf6i\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Events\", \"col\": 5}}, {\"id\": \"koRJv7-lVl\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"QveiQbvbmp\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\">Constituents</span>\", \"col\": 9}}, {\"id\": \"QBrpPKn3QU\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Members\", \"col\": 9}}, {\"id\": \"rcnyMUUFL1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Supporters\", \"col\": 9}}, {\"id\": \"otDoorknockHdr\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\">Doorknocking</span>\", \"col\": 9}}, {\"id\": \"otDoorknockS0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Record New Doorknock\", \"col\": 9}}, {\"id\": \"otDoorknockS1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Canvass Log\", \"col\": 9}}, {\"id\": \"otDoorknockS2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Addresses\", \"col\": 9}}, {\"id\": \"-bmIznf-0N\", \"type\": \"card\", \"data\": {\"card_name\": \"Events\", \"col\": 4}}, {\"id\": \"lnVVJMMoMV\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Forms</b></span>\", \"col\": 12}}, {\"id\": \"GfGwuV2xM2\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"Data Entry Forms\", \"col\": 6}}]",
  "creation": "2026-03-10 14:16:37.321198",
  "custom_blocks": [],
  "docstatus": 0,
@@ -33,7 +33,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-04-15 17:40:19.229453",
+ "modified": "2026-07-29 13:00:00.000000",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "Home",
@@ -50,7 +50,13 @@
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
- "quick_lists": [],
+ "quick_lists": [
+  {
+   "document_type": "Web Form",
+   "label": "Data Entry Forms",
+   "quick_list_filter": "[[\"Web Form\",\"module\",\"=\",\"Organizer Toolkit\",false]]"
+  }
+ ],
  "roles": [],
  "sequence_id": 1.0,
  "shortcuts": [
@@ -68,6 +74,27 @@
    "label": "Supporters",
    "link_to": "OT Constituent",
    "stats_filter": "[[\"OT Constituent\",\"type\",\"=\",\"Supporter\",false]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "New",
+   "label": "Record New Doorknock",
+   "link_to": "OT Canvass Attempt",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Canvass Log",
+   "link_to": "OT Canvass Attempt",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Addresses",
+   "link_to": "OT Address",
    "type": "DocType"
   }
  ],

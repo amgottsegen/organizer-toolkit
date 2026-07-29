@@ -14,25 +14,25 @@ class TestAddressKey(FrappeTestCase):
 	def test_spelling_variants_collapse(self):
 		"""What a canvasser types and what city records say must reach the same key."""
 		variants = [
-			("1423 S 52nd St", "Philadelphia", "19143"),
-			("1423 South 52nd Street", "philadelphia", "19143"),
-			("1423 S 52ND ST", "PHILADELPHIA", "19143-1234"),
-			("1423 s. 52nd st.", "Philadelphia", "19143"),
+			("1423 S 52nd St", "Philadelphia"),
+			("1423 South 52nd Street", "philadelphia"),
+			("1423 S 52ND ST", "PHILADELPHIA"),
+			("1423 s. 52nd st.", "Philadelphia"),
 		]
-		keys = {build_address_key(line, None, city, postal) for line, city, postal in variants}
+		keys = {build_address_key(line, None, city) for line, city in variants}
 
 		self.assertEqual(len(keys), 1, f"expected one key, got {keys}")
 
 	def test_distinct_addresses_stay_distinct(self):
-		neighbour_a = build_address_key("1423 S 52nd St", None, "Philadelphia", "19143")
-		neighbour_b = build_address_key("1425 S 52nd St", None, "Philadelphia", "19143")
+		neighbour_a = build_address_key("1423 S 52nd St", None, "Philadelphia")
+		neighbour_b = build_address_key("1425 S 52nd St", None, "Philadelphia")
 
 		self.assertNotEqual(neighbour_a, neighbour_b)
 
 	def test_units_are_distinct(self):
 		"""Two apartments at one street address are two separate doors."""
-		unit_a = build_address_key("55 Main St", "Apt 2B", "Philadelphia", "19100")
-		unit_b = build_address_key("55 Main St", "Apt 3B", "Philadelphia", "19100")
+		unit_a = build_address_key("55 Main St", "Apt 2B", "Philadelphia")
+		unit_b = build_address_key("55 Main St", "Apt 3B", "Philadelphia")
 
 		self.assertNotEqual(unit_a, unit_b)
 
@@ -51,7 +51,7 @@ class TestAddressKey(FrappeTestCase):
 
 	def test_blank_street_yields_no_key(self):
 		"""An address with no street cannot be deduplicated, so it must not get a key."""
-		self.assertEqual(build_address_key("", None, "Philadelphia", "19100"), "")
+		self.assertEqual(build_address_key("", None, "Philadelphia"), "")
 
 
 class TestOTAddress(FrappeTestCase):
@@ -73,7 +73,7 @@ class TestOTAddress(FrappeTestCase):
 	def test_address_key_is_set_on_save(self):
 		doc = self._make()
 
-		self.assertEqual(doc.address_key, "1423 south 52nd street||philadelphia|19143")
+		self.assertEqual(doc.address_key, "1423 south 52nd street||philadelphia")
 
 	def test_duplicate_is_rejected_with_a_usable_message(self):
 		self._make()

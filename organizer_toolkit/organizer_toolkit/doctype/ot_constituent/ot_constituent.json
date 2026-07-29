@@ -8,6 +8,7 @@
  "engine": "InnoDB",
  "field_order": [
   "status_section",
+  "image",
   "type",
   "column_break_otet",
   "assessment",
@@ -25,6 +26,8 @@
   "column_break_miav",
   "resident_type",
   "address",
+  "engagement_section",
+  "volunteers_for",
   "dues_and_lots_section",
   "date_joined",
   "dues_note",
@@ -37,16 +40,19 @@
  ],
  "fields": [
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "first_name",
    "fieldtype": "Data",
    "label": "First Name"
   },
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "last_name",
    "fieldtype": "Data",
    "label": "Last Name"
   },
   {
+   "allow_in_quick_entry": 1,
    "default": "+1-",
    "fieldname": "mobile_phone",
    "fieldtype": "Phone",
@@ -76,6 +82,7 @@
    "label": "Event RSVPs"
   },
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "email",
    "fieldtype": "Data",
    "label": "Email",
@@ -91,6 +98,7 @@
    "label": "Preferred Name"
   },
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "resident_type",
    "fieldtype": "Link",
    "label": "Resident Type",
@@ -186,18 +194,37 @@
    "label": "Next Dues Payment"
   },
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "address",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Address",
    "options": "OT Address"
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "label": "Photo"
+  },
+  {
+   "fieldname": "engagement_section",
+   "fieldtype": "Section Break",
+   "label": "Engagement"
+  },
+  {
+   "description": "Activities this person has said they are willing to help with.",
+   "fieldname": "volunteers_for",
+   "fieldtype": "Table MultiSelect",
+   "label": "Volunteers For",
+   "options": "OT Activity Child"
   }
  ],
  "grid_page_length": 50,
+ "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-08 14:25:32.135368",
+ "modified": "2026-07-29 14:38:36.384530",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Constituent",
@@ -225,6 +252,7 @@
    "role": "OT Organizer"
   },
   {
+   "create": 1,
    "email": 1,
    "export": 1,
    "print": 1,
@@ -261,6 +289,7 @@
    "role": "System Manager"
   }
  ],
+ "quick_entry": 1,
  "row_format": "Dynamic",
  "rows_threshold_for_grid_search": 20,
  "show_name_in_global_search": 1,

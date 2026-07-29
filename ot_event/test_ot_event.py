@@ -1,6 +1,5 @@
-# Copyright (c) 2026, CREATE Lab and Contributors
+# Copyright (c) 2026, CREATE Lab and contributors
 # See license.txt
-
 import frappe
 from frappe.tests.utils import FrappeTestCase
 from frappe.utils import add_to_date, now_datetime
@@ -13,7 +12,7 @@ class TestOTEvent(FrappeTestCase):
 	def test_event_saves_without_a_duration(self):
 		"""Duration is optional on the form, so leaving it blank must not crash.
 
-		`add_to_date(seconds=None)` raises a TypeError, which made saving any event
+		add_to_date(seconds=None) raises a TypeError, which made saving any event
 		without a duration impossible.
 		"""
 		event = frappe.get_doc(

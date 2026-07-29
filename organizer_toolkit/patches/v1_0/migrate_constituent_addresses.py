@@ -106,7 +106,7 @@ def _migrate(dry_run):
 			continue
 
 		key = build_address_key(
-			row.get("street_address"), row.get("address_line_2"), row.get("city"), row.get("postal_code")
+			row.get("street_address"), row.get("address_line_2"), row.get("city")
 		)
 
 		if not key:
@@ -148,13 +148,12 @@ def _migrate(dry_run):
 def _merge_group(group):
 	"""Combine constituents at one door into a single address payload.
 
-	City and postal code are part of the dedupe key, so every row in a group already
-	agrees on them. Only `state`, `council_district` and `location` can vary, and there
-	the first non-empty value across the group wins.
+	City is part of the dedupe key, so every row in a group already agrees on it. The
+	remaining fields can vary, and there the first non-empty value across the group wins.
 	"""
 	base = dict(group[0])
 
-	for field in ("state", "council_district", "location"):
+	for field in ("state", "postal_code", "council_district", "location"):
 		if not base.get(field):
 			base[field] = next((r.get(field) for r in group if r.get(field)), None)
 

@@ -122,8 +122,15 @@ def normalize_postal_code(value):
 	return digits[:5]
 
 
-def build_address_key(address_line_1, address_line_2=None, city=None, postal_code=None):
+def build_address_key(address_line_1, address_line_2=None, city=None):
 	"""Build the unique dedupe key for an OT Address.
+
+	Deliberately excludes the postal code. Within one municipality a street plus house
+	number *is* the door -- the ZIP is a property of that door, not part of its
+	identity. Including it made the key brittle in exactly the situation it exists for:
+	a canvasser at the door rarely knows the ZIP, so the same address entered with and
+	without one produced two records and split that door's history. (6069 Reinhard St
+	was already duplicated this way before the key was changed.)
 
 	Returns an empty string when there is no street line at all, which the caller is
 	expected to reject -- an address with no street cannot be deduplicated.
@@ -137,7 +144,6 @@ def build_address_key(address_line_1, address_line_2=None, city=None, postal_cod
 			street,
 			normalize_unit(address_line_2),
 			" ".join(_tokenize(city)),
-			normalize_postal_code(postal_code),
 		]
 	)
 

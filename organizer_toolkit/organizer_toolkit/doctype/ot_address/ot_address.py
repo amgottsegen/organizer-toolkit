@@ -15,9 +15,7 @@ from organizer_toolkit.utils import get_coordinates
 
 class OTAddress(Document):
 	def validate(self):
-		self.address_key = build_address_key(
-			self.address_line_1, self.address_line_2, self.city, self.postal_code
-		)
+		self.address_key = build_address_key(self.address_line_1, self.address_line_2, self.city)
 
 		if not self.address_key:
 			frappe.throw(_("Street Address is required."))
@@ -64,7 +62,7 @@ def find_or_create_address(
 	Deduplication happens on the normalized address_key, so callers can pass whatever
 	the user typed. Used by the migration patches and by field data entry.
 	"""
-	address_key = build_address_key(address_line_1, address_line_2, city, postal_code)
+	address_key = build_address_key(address_line_1, address_line_2, city)
 
 	if not address_key:
 		return None

@@ -1,0 +1,66 @@
+[
+ {
+  "activity_name": "Doorknocking",
+  "description": "Canvassing door to door",
+  "docstatus": 0,
+  "doctype": "OT Activity",
+  "is_active": 1,
+  "name": "Doorknocking"
+ },
+ {
+  "activity_name": "Phonebanking",
+  "description": "Calling constituents from a list",
+  "docstatus": 0,
+  "doctype": "OT Activity",
+  "is_active": 1,
+  "name": "Phonebanking"
+ },
+ {
+  "activity_name": "Tabling",
+  "description": "Staffing a table at a public location or event",
+  "docstatus": 0,
+  "doctype": "OT Activity",
+  "is_active": 1,
+  "name": "Tabling"
+ },
+ {
+  "activity_name": "Event Support",
+  "description": "Setup, cleanup, food, or greeting at events",
+  "docstatus": 0,
+  "doctype": "OT Activity",
+  "is_active": 1,
+  "name": "Event Support"
+ },
+ {
+  "activity_name": "Childcare",
+  "description": "Providing childcare so others can attend",
+  "docstatus": 0,
+  "doctype": "OT Activity",
+  "is_active": 1,
+  "name": "Childcare"
+ },
+ {
+  "activity_name": "Transportation",
+  "description": "Driving neighbours to events or appointments",
+  "docstatus": 0,
+  "doctype": "OT Activity",
+  "is_active": 1,
+  "name": "Transportation"
+ },
+ {
+  "activity_name": "Translation",
+  "description": "Interpreting or translating materials",
+  "docstatus": 0,
+  "doctype": "OT Activity",
+  "is_active": 1,
+  "name": "Translation"
+ },
+ {
+  "activity_name": "Data Entry",
+  "description": "Entering canvass or event data into the toolkit",
+  "docstatus": 0,
+  "doctype": "OT Activity",
+  "is_active": 1,
+  "name": "Data Entry"
+ }
+]

@@ -12,6 +12,7 @@ fixtures = [
 	{"dt": "OT Constituent Type"},
 	{"dt": "OT Resident Type"},
 	{"dt": "OT Assessment"},
+	{"dt": "OT Activity"},
 	# Custom DocPerm is deliberately NOT a fixture. Permissions for doctypes this app
 	# owns live in their doctype JSON. A Custom DocPerm row shadows the JSON entirely
 	# (see frappe/model/meta.py Meta.set_custom_permissions), so exporting them here
@@ -44,7 +45,10 @@ fixtures = [
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/organizer_toolkit/css/organizer_toolkit.css"
-app_include_js = ["/assets/organizer_toolkit/js/map_defaults.js"]
+app_include_js = [
+	"/assets/organizer_toolkit/js/map_defaults.js",
+	"/assets/organizer_toolkit/js/canvass_quick_entry.js",
+]
 
 # Publishes OT Locality Settings to frappe.boot.ot_locality so client-side code can read
 # the configured city without a server round trip.
