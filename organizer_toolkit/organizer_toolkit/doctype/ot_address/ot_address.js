@@ -1,17 +1,14 @@
 // Copyright (c) 2026, CREATE Lab and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on("OT Constituent", {
+frappe.ui.form.on("OT Address", {
     refresh: function(frm) {
-        // Geocoding lives on OT Address now -- coordinates belong to the place, not the
-        // person -- so this acts on the linked address. Only offered when one is linked.
-        if (!frm.doc.address) return;
+        if (frm.is_new()) return;
 
-        // Syntax: frm.add_custom_button(__('Label'), action_function, group)
-        frm.add_custom_button(__('Geocode'), (function() {
+        frm.add_custom_button(__('Geocode'), function() {
             frappe.call({
                 method: "organizer_toolkit.organizer_toolkit.doctype.ot_address.ot_address.geocode_address",
-                args: { doc_name: frm.doc.address },
+                args: { doc_name: frm.doc.name },
                 freeze: true,
                 freeze_message: __("Geocoding address..."),
                 callback(r) {
@@ -22,10 +19,7 @@ frappe.ui.form.on("OT Constituent", {
                     });
                     frm.reload_doc();
                 }
-            })
-        }), __('Actions')); // Optional: places the button under the 'Actions' dropdown
+            });
+        }, __('Actions'));
     }
 });
-
-
-

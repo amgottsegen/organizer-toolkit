@@ -9,7 +9,7 @@
  "filters": [],
  "idx": 0,
  "is_standard": "Yes",
- "json": "{\"fields\": [[\"name\", \"OT Constituent\"], [\"first_name\", \"OT Constituent\"], [\"last_name\", \"OT Constituent\"], [\"mobile_phone\", \"OT Constituent\"], [\"home_phone\", \"OT Constituent\"], [\"email\", \"OT Constituent\"], [\"street_address\", \"OT Constituent\"], [\"address_line_2\", \"OT Constituent\"], [\"resident_type\", \"OT Constituent\"], [\"lot_address\", \"OT Constituent\"], [\"lot_status\", \"OT Constituent\"], [\"council_district\", \"OT Constituent\"], [\"date_joined\", \"OT Constituent\"], [\"dues_note\", \"OT Constituent\"], [\"next_dues_payment\", \"OT Constituent\"], [\"preferred_language\", \"OT Constituent\"], [\"other_languages\", \"OT Constituent\"],[\"preferred_name\", \"OT Constituent\"], [\"assessment\", \"OT Constituent\"], [\"type\", \"OT Constituent\"]], \"order_by\": \"`tabOT Constituent`.`modified` asc\", \"add_total_row\": 0, \"filters\": []}",
+ "json": "{\"fields\": [[\"name\", \"OT Constituent\"], [\"first_name\", \"OT Constituent\"], [\"last_name\", \"OT Constituent\"], [\"mobile_phone\", \"OT Constituent\"], [\"home_phone\", \"OT Constituent\"], [\"email\", \"OT Constituent\"], [\"address\", \"OT Constituent\"], [\"resident_type\", \"OT Constituent\"], [\"lot_address\", \"OT Constituent\"], [\"lot_status\", \"OT Constituent\"], [\"date_joined\", \"OT Constituent\"], [\"dues_note\", \"OT Constituent\"], [\"next_dues_payment\", \"OT Constituent\"], [\"preferred_language\", \"OT Constituent\"], [\"other_languages\", \"OT Constituent\"], [\"preferred_name\", \"OT Constituent\"], [\"assessment\", \"OT Constituent\"], [\"type\", \"OT Constituent\"]], \"order_by\": \"`tabOT Constituent`.`modified` asc\", \"add_total_row\": 0, \"filters\": []}",
  "letter_head": null,
  "modified": "2026-07-09 16:35:41.173134",
  "modified_by": "Administrator",
@@ -26,6 +26,9 @@
   },
   {
    "role": "OT Volunteer"
+  },
+  {
+   "role": "OT Organizer"
   }
  ],
  "timeout": 0

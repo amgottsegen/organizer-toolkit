@@ -21,23 +21,36 @@ function geocodeSelected(listview) {
         frappe.msgprint("Please select at least one constituent.");
         return;
     }
-    if (selected.length > 10){
-        frappe.throw("Please select no more than 10 constituents at a time to avoid hitting geocoding rate limits.");
+
+    const missing = selected.filter(r => !r.address).length;
+    // Geocoding now happens on OT Address. Several constituents can share one door, so
+    // collapse to distinct addresses -- otherwise a household burns one geocoding
+    // request per member for the same coordinates.
+    const addresses = [...new Set(selected.filter(r => r.address).map(r => r.address))];
+
+    if (!addresses.length) {
+        frappe.msgprint("None of the selected constituents have an address linked.");
+        return;
+    }
+    if (addresses.length > 10) {
+        frappe.throw("Please select no more than 10 distinct addresses at a time to avoid hitting geocoding rate limits.");
     }
 
+    const note = missing ? `<br><em>${missing} selected record(s) have no address and will be skipped.</em>` : "";
+
     frappe.confirm(
-        `Geocode addresses for <strong>${selected.length} selected record(s)</strong>?`,
+        `Geocode <strong>${addresses.length} address(es)</strong> for ${selected.length} selected record(s)?${note}`,
         () => {
-            const calls = selected.map(r =>
+            const calls = addresses.map(name =>
                 frappe.call({
-                    method: "organizer_toolkit.organizer_toolkit.doctype.ot_constituent.ot_constituent.geocode_address",
-                    args: { doc_name: r.name },
+                    method: "organizer_toolkit.organizer_toolkit.doctype.ot_address.ot_address.geocode_address",
+                    args: { doc_name: name },
                 })
             );
 
             Promise.all(calls).then(() => {
                 frappe.show_alert({
-                    message: `Geocoded ${selected.length} constituent(s)`,
+                    message: `Geocoded ${addresses.length} address(es)`,
                     indicator: "green",
                 });
                 listview.refresh();

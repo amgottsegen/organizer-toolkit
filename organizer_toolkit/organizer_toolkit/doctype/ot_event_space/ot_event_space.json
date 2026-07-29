@@ -30,13 +30,11 @@
    "label": "Street Address"
   },
   {
-   "default": "Philadelphia",
    "fieldname": "city",
    "fieldtype": "Data",
    "label": "City"
   },
   {
-   "default": "PA",
    "fieldname": "state",
    "fieldtype": "Data",
    "label": "State"

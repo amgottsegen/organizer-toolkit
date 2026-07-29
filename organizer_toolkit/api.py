@@ -4,26 +4,82 @@ import frappe
 from frappe.desk.doctype.tag.tag import get_tagged_docs, remove_tag
 from rapidfuzz import fuzz
 
+from organizer_toolkit.address_utils import normalize_street
+
+SIMILARITY_THRESHOLD = 75.0
+
+
+def _street_without_house_number(address_line_1):
+	"""'1816 N Bucknell St.' -> 'north bucknell street'.
+
+	Dropping the house number is what lets a candidate search find the neighbours on a
+	block, not just the exact door.
+	"""
+	tokens = normalize_street(address_line_1).split(" ")
+
+	if len(tokens) > 1 and tokens[0].isdigit():
+		return " ".join(tokens[1:])
+
+	return " ".join(tokens)
+
 
 @frappe.whitelist()
-def compare_against_name_and_address(first_name, last_name, street_address):
-	if street_address is None or street_address.strip() == "":
+def compare_against_name_and_address(first_name, last_name, address=None):
+	"""Find existing constituents who look like the one being entered.
+
+	Takes an OT Address link rather than typed text: since addresses are deduplicated on
+	a normalized key, "same address" is now an exact match instead of a fuzzy one, and
+	only the name needs fuzzy comparison.
+
+	Candidates are narrowed to the same street before scoring. The previous version
+	loaded every constituent and scored all of them, which is fine at a few hundred rows
+	and quadratic misery at a few thousand.
+	"""
+	if not address:
 		return []
 
-	constituents = frappe.get_all(
-		"OT Constituent", fields=["name", "first_name", "last_name", "street_address"]
+	target = frappe.db.get_value("OT Address", address, ["address_line_1"], as_dict=True)
+
+	if not target:
+		return []
+
+	street = _street_without_house_number(target.address_line_1)
+
+	if not street:
+		return []
+
+	# Addresses on the same street, then the constituents living at them.
+	nearby = frappe.get_all(
+		"OT Address",
+		filters={"address_key": ["like", f"%{street}%"]},
+		fields=["name", "address_line_1"],
 	)
-	left = f"{first_name} {last_name} {street_address}"
-	similar_constituents = []
 
-	for constituent in constituents:
-		right = f"{constituent.first_name} {constituent.last_name} {constituent.street_address}"
-		similarity = fuzz.ratio(left, right)
+	if not nearby:
+		return []
 
-		if similarity > 75.0:
-			similar_constituents.append(constituent)
+	streets_by_address = {a.name: a.address_line_1 for a in nearby}
 
-	return similar_constituents
+	candidates = frappe.get_list(
+		"OT Constituent",
+		filters={"address": ["in", list(streets_by_address)]},
+		fields=["name", "first_name", "last_name", "address"],
+		limit_page_length=0,
+	)
+
+	left = f"{first_name or ''} {last_name or ''} {target.address_line_1}"
+	matches = []
+
+	for candidate in candidates:
+		candidate_street = streets_by_address.get(candidate.address, "")
+		right = f"{candidate.first_name or ''} {candidate.last_name or ''} {candidate_street}"
+
+		if fuzz.ratio(left, right) > SIMILARITY_THRESHOLD:
+			# The client dialog labels each row with this, so keep the street on the row.
+			candidate.street_address = candidate_street
+			matches.append(candidate)
+
+	return matches
 
 
 @frappe.whitelist(allow_guest=False)

@@ -41,6 +41,10 @@ fixtures = [
 # app_include_css = "/assets/organizer_toolkit/css/organizer_toolkit.css"
 app_include_js = ["/assets/organizer_toolkit/js/map_defaults.js"]
 
+# Publishes OT Locality Settings to frappe.boot.ot_locality so client-side code can read
+# the configured city without a server round trip.
+extend_bootinfo = ["organizer_toolkit.boot.boot_session"]
+
 # include js, css files in header of web template
 # web_include_css = "/assets/organizer_toolkit/css/organizer_toolkit.css"
 # web_include_js = "/assets/organizer_toolkit/js/organizer_toolkit.js"

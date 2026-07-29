@@ -4,3 +4,6 @@
 
 [post_model_sync]
 # Patches added in this section will be executed after doctypes are migrated
+organizer_toolkit.patches.v1_0.migrate_constituent_addresses
+organizer_toolkit.patches.v1_0.rename_philadelphia_specific_address_fields
+organizer_toolkit.patches.v1_0.seed_locality_settings

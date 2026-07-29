@@ -4,7 +4,6 @@ live from the OT Constituent doctype (filtered to type == "Member") and
 keeping all other layers as static bundled files.
 """
 
-import json
 import os
 
 import folium
@@ -12,8 +11,13 @@ import frappe
 import pandas as pd
 from folium.plugins import BeautifyIcon, HeatMap, Search
 
+from organizer_toolkit.locality import (
+	get_district_boundaries_path,
+	get_locality,
+	get_parcel_lookup_url,
+)
+
 APP_NAME = "organizer_toolkit"
-DEFAULT_CENTER = [39.986707, -75.141287]
 MAP_FILENAME = "doorknocking_map.html"
 
 
@@ -22,10 +26,26 @@ def _data_path(*parts):
 	return frappe.get_app_path(APP_NAME, "doorknocking_data", *parts)
 
 
+def _map_center():
+	locality = get_locality()
+
+	return [locality["map_center_latitude"], locality["map_center_longitude"]]
+
+
+def _parcel_link(address):
+	"""Anchor to the city's property-record system, or empty if none is configured."""
+	url = get_parcel_lookup_url(address)
+
+	if not url:
+		return ""
+
+	return f'<a class="btn btn-light" role="button" href="{url}" target="_blank">Property Records</a>'
+
+
 def _build_base_map():
 	# token = frappe.conf.get("mapbox_token")
 
-	m = folium.Map(location=DEFAULT_CENTER, zoom_start=15, tiles="CartoDB Voyager")
+	m = folium.Map(location=_map_center(), zoom_start=15, tiles="CartoDB Voyager")
 
 	# if token:
 	#     folium.TileLayer(
@@ -47,9 +67,7 @@ def _add_static_layers(m):
 	lots_path = frappe.get_site_path("private", "files", "target_lots.csv")
 	stewards_path = frappe.get_site_path("private", "files", "target_stewards.csv")
 	zones_geojson_path = frappe.get_site_path("private", "files", "zones_v2.geojson")
-	district_geojson_path = frappe.get_app_path(
-		"organizer_toolkit", "public", "geojson", "Council_Districts_2024.geojson"
-	)
+	district_geojson_path = get_district_boundaries_path()
 
 	if os.path.exists(zones_geojson_path):
 		folium.GeoJson(
@@ -65,10 +83,12 @@ def _add_static_layers(m):
 	if os.path.exists(district_geojson_path):
 		folium.GeoJson(
 			district_geojson_path,
-			name="Council Districts",
+			name=f"{get_locality('district_label')}s",
 			highlight_function=lambda x: {"weight": 3, "color": "white"},
 			color="black",
-			popup=folium.GeoJsonPopup(fields=["DISTRICT"], labels=False, localize=True),
+			popup=folium.GeoJsonPopup(
+				fields=[get_locality("district_property_key")], labels=False, localize=True
+			),
 			show=False,
 		).add_to(m)
 
@@ -83,8 +103,7 @@ def _add_static_layers(m):
 				<p><b>Owner:</b> {row.owner_1}</p>
 				<p><b>Market Value:</b> ${row.market_value}</p>
 				<b>Other Resources:</b><br>
-				<a class="btn btn-light" role="button"
-				href="https://atlas.phila.gov/{row.location}/property" target="_blank">Atlas</a>
+				{_parcel_link(row.location)}
 				<a class="btn btn-light" role="button"
 				href="https://www.google.com/maps/search/{row.location}" target="_blank">Google Maps</a>
 				<br><br>
@@ -114,8 +133,7 @@ def _add_static_layers(m):
 				<p><b>Lot Address:</b> {row.lot_address}</p>
 				<p><b>Lot Owner:</b> {row.lot_owner}</p>
 				<b>Other Resources:</b><br>
-				<a class="btn btn-light" role="button"
-				href="https://atlas.phila.gov/{row.location}/property" target="_blank">Atlas</a>
+				{_parcel_link(row.location)}
 				<a class="btn btn-light" role="button"
 				href="https://www.google.com/maps/search/{row.location}" target="_blank">Google Maps</a>
 				<br><br>
@@ -140,64 +158,40 @@ def _add_static_layers(m):
 		HeatMap(heat_data, name="Heat Map").add_to(m)
 
 
-def _extract_lat_lon(location_value):
-	"""Safely pull (lat, lon) out of a Frappe Geolocation field.
-
-	The field is stored as a GeoJSON FeatureCollection string, e.g.:
-	    {"type": "FeatureCollection", "features": [
-	        {"type": "Feature", "geometry": {"type": "Point",
-	         "coordinates": [-75.1460133, 39.9902584]}, "properties": {}}
-	    ]}
-
-	Note GeoJSON orders coordinates as [longitude, latitude] -- the
-	reverse of what folium wants. Returns None if the field is empty,
-	malformed, or has no usable point so callers can just skip the row.
-	"""
-	if not location_value:
-		return None
-
-	try:
-		data = json.loads(location_value) if isinstance(location_value, str) else location_value
-		features = data.get("features") or []
-		if not features:
-			return None
-
-		geometry = features[0].get("geometry") or {}
-		if geometry.get("type") != "Point":
-			return None
-
-		coords = geometry.get("coordinates") or []
-		if len(coords) != 2:
-			return None
-
-		lon, lat = coords
-		return float(lat), float(lon)
-	except (ValueError, TypeError, AttributeError, KeyError):
-		frappe.log_error(
-			title="Doorknocking map: bad location value",
-			message=f"Could not parse location field: {location_value!r}",
-		)
-		return None
-
-
 def _add_members_layer(m):
-	# Adjust fieldnames to match your OT Constituent doctype.
 	members = frappe.get_all(
 		"OT Constituent",
-		filters={"type": "Member"},
-		fields=["name", "full_name", "street_address", "location"],
+		filters={"type": "Member", "address": ["is", "set"]},
+		fields=["name", "full_name", "address"],
 	)
+
+	if not members:
+		return
+
+	# Coordinates now live on OT Address as flat columns, so there is no GeoJSON to
+	# parse here any more. Ungeocoded addresses store 0/0 rather than NULL (Frappe Float
+	# columns are NOT NULL), so filter that sentinel out -- 0,0 is in the Gulf of Guinea
+	# and would otherwise plot as a real pin.
+	addresses = {
+		a.name: a
+		for a in frappe.get_all(
+			"OT Address",
+			filters={"name": ["in", [m.address for m in members]], "latitude": ["!=", 0]},
+			fields=["name", "address_line_1", "latitude", "longitude"],
+		)
+	}
 
 	member_layer = folium.FeatureGroup(name="Members", show=False)
 
 	for row in members:
-		coords = _extract_lat_lon(row.get("location"))
-		if coords is None:
+		location = addresses.get(row.address)
+		if location is None:
 			continue
-		lat, lon = coords
+
+		lat, lon = location.latitude, location.longitude
 
 		name = frappe.utils.escape_html(row.get("full_name") or "")
-		address = frappe.utils.escape_html(row.get("street_address") or "")
+		address = frappe.utils.escape_html(location.address_line_1 or "")
 
 		popup_content = f"""
         <div>

@@ -1,0 +1,176 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-07-29 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "intro_html",
+  "locality_name",
+  "address_defaults_section",
+  "default_city",
+  "column_break_defaults",
+  "default_state",
+  "map_section",
+  "map_center_latitude",
+  "map_center_longitude",
+  "column_break_map",
+  "map_default_zoom",
+  "municipal_data_section",
+  "district_label",
+  "district_boundaries",
+  "district_property_key",
+  "column_break_municipal",
+  "parcel_id_label",
+  "parcel_lookup_url"
+ ],
+ "fields": [
+  {
+   "fieldname": "intro_html",
+   "fieldtype": "HTML",
+   "options": "<div class=\"alert alert-info\">These settings adapt Organizer Toolkit to one city. Everything here ships pre-filled for Philadelphia; change these values (and upload your own district boundaries) to run the toolkit somewhere else without editing any code.</div>"
+  },
+  {
+   "description": "Human-readable name for where this install operates, e.g. \"Philadelphia, PA\"",
+   "fieldname": "locality_name",
+   "fieldtype": "Data",
+   "label": "Locality Name"
+  },
+  {
+   "fieldname": "address_defaults_section",
+   "fieldtype": "Section Break",
+   "label": "Address Defaults"
+  },
+  {
+   "description": "Pre-filled when creating a new address, so field entry only needs the street.",
+   "fieldname": "default_city",
+   "fieldtype": "Data",
+   "label": "Default City"
+  },
+  {
+   "fieldname": "column_break_defaults",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_state",
+   "fieldtype": "Data",
+   "label": "Default State"
+  },
+  {
+   "fieldname": "map_section",
+   "fieldtype": "Section Break",
+   "label": "Map"
+  },
+  {
+   "fieldname": "map_center_latitude",
+   "fieldtype": "Float",
+   "label": "Map Center Latitude",
+   "precision": "8"
+  },
+  {
+   "fieldname": "map_center_longitude",
+   "fieldtype": "Float",
+   "label": "Map Center Longitude",
+   "precision": "8"
+  },
+  {
+   "fieldname": "column_break_map",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "12",
+   "fieldname": "map_default_zoom",
+   "fieldtype": "Int",
+   "label": "Map Default Zoom"
+  },
+  {
+   "fieldname": "municipal_data_section",
+   "fieldtype": "Section Break",
+   "label": "Municipal Data"
+  },
+  {
+   "description": "What your city calls its districts, e.g. \"Council District\" or \"Ward\". Applied as the field label on OT Address.",
+   "fieldname": "district_label",
+   "fieldtype": "Data",
+   "label": "District Label"
+  },
+  {
+   "description": "GeoJSON of your city's district boundaries. Leave empty to use the Philadelphia council districts bundled with the app.",
+   "fieldname": "district_boundaries",
+   "fieldtype": "Attach",
+   "label": "District Boundaries (GeoJSON)"
+  },
+  {
+   "default": "DISTRICT",
+   "description": "Property name inside each GeoJSON feature holding the district identifier.",
+   "fieldname": "district_property_key",
+   "fieldtype": "Data",
+   "label": "District Property Key"
+  },
+  {
+   "fieldname": "column_break_municipal",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "What your city calls its parcel identifier, e.g. \"OPA Account Number\". Applied as the field label on OT Address.",
+   "fieldname": "parcel_id_label",
+   "fieldtype": "Data",
+   "label": "Parcel ID Label"
+  },
+  {
+   "description": "External property-record link shown on map popups. Use {address} as the placeholder. Leave empty to hide the link.",
+   "fieldname": "parcel_lookup_url",
+   "fieldtype": "Small Text",
+   "label": "Parcel Lookup URL"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-07-29 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Organizer Toolkit",
+ "name": "OT Locality Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OT Organizer",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OT Volunteer",
+   "share": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
