@@ -10,3 +10,10 @@ organizer_toolkit.patches.v1_0.seed_locality_settings
 organizer_toolkit.patches.v1_0.move_constituent_perms_to_doctype
 organizer_toolkit.patches.v1_0.rekey_addresses_without_postal_code
 organizer_toolkit.patches.v1_0.import_canvass_zones
+organizer_toolkit.patches.v1_0.backfill_constituent_location
+organizer_toolkit.patches.v1_0.seed_map_layers
+# Re-run to pick up the Doorknocking Volunteers layer. Frappe keys the Patch Log off the
+# whole line, so the suffix makes this a fresh entry; the patch itself skips layers that
+# already exist.
+organizer_toolkit.patches.v1_0.seed_map_layers #2026-08-04
+organizer_toolkit.patches.v1_0.seed_map_layers #2026-08-04-display-order

@@ -49,6 +49,9 @@ app_include_js = [
 	"/assets/organizer_toolkit/js/map_defaults.js",
 	"/assets/organizer_toolkit/js/canvass_quick_entry.js",
 	"/assets/organizer_toolkit/js/rapid_block_entry.js",
+	# Patches ControlGeolocation and MapView, so it must load after the desk bundle --
+	# app_include_js is appended to frappe's own list (frappe/www/app.py), so it does.
+	"/assets/organizer_toolkit/js/map_layers.js",
 ]
 
 # Publishes OT Locality Settings to frappe.boot.ot_locality so client-side code can read

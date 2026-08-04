@@ -181,6 +181,35 @@ class TestAddressGeocoding(FrappeTestCase):
 			"the recorded doorknock should have picked up the new coordinates",
 		)
 
+	def test_location_propagates_to_constituents_already_recorded(self):
+		"""Same gap on the constituent side: a person recorded before their address was
+		geocoded would never appear on a map."""
+		with patch("frappe.enqueue"):
+			address = self._address()
+
+		constituent = frappe.get_doc(
+			{"doctype": "OT Constituent", "first_name": "Propagation", "address": address.name}
+		).insert()
+		self.assertFalse(constituent.location, "should start with no coordinates")
+
+		address.location = build_location_geojson(*self.PHILLY)
+		address.save()
+
+		self.assertTrue(
+			frappe.db.get_value("OT Constituent", constituent.name, "location"),
+			"the constituent should have picked up the new coordinates",
+		)
+
+	def test_a_constituent_fetches_its_location_on_save(self):
+		with patch("frappe.enqueue"):
+			address = self._address(location=build_location_geojson(*self.PHILLY))
+
+		constituent = frappe.get_doc(
+			{"doctype": "OT Constituent", "first_name": "Fetching", "address": address.name}
+		).insert()
+
+		self.assertEqual(constituent.location, address.location)
+
 
 class TestGeocodeBackfill(FrappeTestCase):
 	"""`frappe.db.commit` is patched throughout: the real job commits after each address

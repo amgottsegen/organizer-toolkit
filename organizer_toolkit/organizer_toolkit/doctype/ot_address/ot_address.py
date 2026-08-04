@@ -46,7 +46,7 @@ class OTAddress(Document):
 		self.queue_geocoding()
 
 	def on_update(self):
-		self.propagate_location_to_canvass_attempts()
+		self.propagate_location()
 
 	def queue_geocoding(self):
 		"""Resolve coordinates in the background for addresses created away from a door.
@@ -71,26 +71,28 @@ class OTAddress(Document):
 			doc_name=self.name,
 		)
 
-	def propagate_location_to_canvass_attempts(self):
-		"""Push new coordinates onto doorknocks already recorded at this address.
+	def propagate_location(self):
+		"""Push new coordinates onto everything already pointing at this address.
 
-		`fetch_from` copies once, at save time. A visit logged before its address was
-		geocoded would keep a blank location forever -- so the backfill would fix the
-		addresses and the map would stay empty. This is what closes that gap.
+		`fetch_from` copies once, at save time. A visit logged -- or a constituent
+		recorded -- before its address was geocoded would keep a blank location forever,
+		so the backfill would fix the addresses and the map would stay empty. This is
+		what closes that gap.
 		"""
 		if not self.location or not self.has_value_changed("location"):
 			return
 
-		if not frappe.db.table_exists("OT Canvass Attempt"):
-			return
+		for doctype in ("OT Canvass Attempt", "OT Constituent"):
+			if not frappe.db.table_exists(doctype):
+				continue
 
-		frappe.db.set_value(
-			"OT Canvass Attempt",
-			{"address": self.name},
-			"location",
-			self.location,
-			update_modified=False,
-		)
+			frappe.db.set_value(
+				doctype,
+				{"address": self.name},
+				"location",
+				self.location,
+				update_modified=False,
+			)
 
 	def check_for_duplicate(self):
 		"""Surface the unique constraint on address_key as a usable message.

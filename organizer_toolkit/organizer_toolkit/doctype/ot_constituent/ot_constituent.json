@@ -26,6 +26,7 @@
   "column_break_miav",
   "resident_type",
   "address",
+  "location",
   "engagement_section",
   "volunteers_for",
   "dues_and_lots_section",
@@ -203,6 +204,14 @@
    "options": "OT Address"
   },
   {
+   "description": "Copied from the address. What lets constituents be drawn on a map.",
+   "fetch_from": "address.location",
+   "fieldname": "location",
+   "fieldtype": "Geolocation",
+   "label": "Location",
+   "read_only": 1
+  },
+  {
    "fieldname": "image",
    "fieldtype": "Attach Image",
    "label": "Photo"
@@ -224,7 +233,7 @@
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-29 14:38:36.384530",
+ "modified": "2026-08-04 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Constituent",
