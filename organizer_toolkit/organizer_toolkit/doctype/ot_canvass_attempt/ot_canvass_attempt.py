@@ -171,6 +171,7 @@ def log_visit(
 	address_line_2=None,
 	notes=None,
 	constituent=None,
+	walk_list=None,
 ):
 	"""Create an address (or reuse the matching one) and log a visit against it.
 
@@ -197,6 +198,7 @@ def log_visit(
 			"constituent": constituent,
 			"outcome": outcome,
 			"notes": notes,
+			"walk_list": walk_list,
 			"canvassed_on": now_datetime(),
 		}
 	).insert()

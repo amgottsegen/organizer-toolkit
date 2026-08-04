@@ -1,0 +1,119 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "autoname": "WL-.#####",
+ "creation": "2026-07-29 00:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "list_name",
+  "canvass_date",
+  "column_break_wl",
+  "assigned_to",
+  "zone",
+  "addresses_section",
+  "addresses"
+ ],
+ "fields": [
+  {
+   "fieldname": "list_name",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "List Name",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "canvass_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Canvass Date"
+  },
+  {
+   "fieldname": "column_break_wl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "assigned_to",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Assigned To",
+   "options": "User"
+  },
+  {
+   "description": "Pull addresses from this zone's boundary using Populate from Zone.",
+   "fieldname": "zone",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Zone",
+   "options": "OT Canvass Zone"
+  },
+  {
+   "fieldname": "addresses_section",
+   "fieldtype": "Section Break",
+   "label": "Doors"
+  },
+  {
+   "allow_bulk_edit": 1,
+   "description": "Deliberately a plain list, so a scattered set of doors works as well as a contiguous block.",
+   "fieldname": "addresses",
+   "fieldtype": "Table",
+   "label": "Addresses",
+   "options": "OT Walk List Address"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-04 13:51:06.674778",
+ "modified_by": "Administrator",
+ "module": "Organizer Toolkit",
+ "name": "OT Walk List",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OT Organizer",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OT Volunteer",
+   "share": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "show_title_field_in_link": 1,
+ "sort_field": "canvass_date",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "list_name"
+}

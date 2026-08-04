@@ -48,6 +48,7 @@ fixtures = [
 app_include_js = [
 	"/assets/organizer_toolkit/js/map_defaults.js",
 	"/assets/organizer_toolkit/js/canvass_quick_entry.js",
+	"/assets/organizer_toolkit/js/rapid_block_entry.js",
 ]
 
 # Publishes OT Locality Settings to frappe.boot.ot_locality so client-side code can read

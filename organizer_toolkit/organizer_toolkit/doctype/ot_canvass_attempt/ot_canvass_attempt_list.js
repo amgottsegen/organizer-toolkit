@@ -21,10 +21,20 @@ frappe.listview_settings["OT Canvass Attempt"] = {
     },
 
     onload: function(listview) {
+        add_rapid_entry_button(listview);
         add_my_doorknocks_toggle(listview);
         add_map_button(listview);
     },
 };
+
+// Working a whole street without a walk list: same dialog, no walk_list attached.
+function add_rapid_entry_button(listview) {
+    listview.page.add_inner_button(__("Rapid Entry"), function() {
+        organizer_toolkit.rapid_block_entry({
+            on_save: () => listview.refresh(),
+        });
+    }).addClass("btn-primary");
+}
 
 // The sidebar's "Created By" grouping only exists on desktop -- the whole side section
 // is dropped on small screens, which is also why the Map link is unreachable there. For
@@ -49,6 +59,7 @@ function add_my_doorknocks_toggle(listview) {
         }
         // Rebuild so the button reflects the state it just moved to.
         listview.page.clear_inner_toolbar();
+        add_rapid_entry_button(listview);
         add_my_doorknocks_toggle(listview);
         add_map_button(listview);
     });
