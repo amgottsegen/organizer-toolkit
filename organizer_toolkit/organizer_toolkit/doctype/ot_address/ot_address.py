@@ -11,6 +11,7 @@ from organizer_toolkit.address_utils import (
 	extract_lat_lon,
 )
 from organizer_toolkit.locality import find_district
+from organizer_toolkit.organizer_toolkit.doctype.ot_canvass_zone.ot_canvass_zone import find_zone
 from organizer_toolkit.utils import get_coordinates
 
 
@@ -34,19 +35,25 @@ class OTAddress(Document):
 
 		self.latitude, self.longitude = coords if coords else (0, 0)
 
-		# District follows the coordinates whatever set them -- the geocoder, a device
-		# GPS fix, or someone dragging the pin on the map widget. Deriving it here rather
-		# than in each caller means no path can leave it stale.
+		# District and zone follow the coordinates whatever set them -- the geocoder, a
+		# device GPS fix, or someone dragging the pin on the map widget. Deriving them
+		# here rather than in each caller means no path can leave them stale.
 		if not coords:
 			self.municipal_district = None
-		elif self.has_value_changed("location") or not self.municipal_district:
+			self.zone = None
+			return
+
+		if self.has_value_changed("location") or not self.municipal_district:
 			self.municipal_district = find_district(*coords)
+
+		if self.has_value_changed("location") or not self.zone:
+			self.zone = find_zone(*coords)
 
 	def after_insert(self):
 		self.queue_geocoding()
 
 	def on_update(self):
-		self.propagate_location()
+		self.propagate_derived_fields()
 
 	def queue_geocoding(self):
 		"""Resolve coordinates in the background for addresses created away from a door.
@@ -71,13 +78,17 @@ class OTAddress(Document):
 			doc_name=self.name,
 		)
 
-	def propagate_location(self):
+	def propagate_derived_fields(self):
 		"""Push new coordinates onto everything already pointing at this address.
 
 		`fetch_from` copies once, at save time. A visit logged -- or a constituent
 		recorded -- before its address was geocoded would keep a blank location forever,
 		so the backfill would fix the addresses and the map would stay empty. This is
 		what closes that gap.
+
+		Deliberately not the zone. A doorknock's zone comes from its walk list, which is
+		what the door was actually canvassed for; the zone on this address is only ever
+		current geography, and boundaries get redrawn.
 		"""
 		if not self.location or not self.has_value_changed("location"):
 			return

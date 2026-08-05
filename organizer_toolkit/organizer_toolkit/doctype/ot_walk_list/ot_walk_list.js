@@ -11,11 +11,11 @@ frappe.ui.form.on("OT Walk List", {
             frm.add_custom_button(__('Populate from Zone'), () => populate_from_zone(frm));
         }
 
-        frm.add_custom_button(__('Rapid Entry'), () => {
-            organizer_toolkit.rapid_block_entry({
-                walk_list: frm.doc.name,
-                on_save: () => show_progress(frm),
-            });
+        // The list is the better place to work from: it shows what has been knocked so
+        // far, and its own Rapid Entry picks the walk list up from this filter, so doors
+        // logged there still count toward this list.
+        frm.add_custom_button(__('Go To Canvass Log'), () => {
+            frappe.set_route("List", "OT Canvass Attempt", { walk_list: frm.doc.name });
         }).addClass("btn-primary");
 
         frm.add_custom_button(__('Map'), () => {

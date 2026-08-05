@@ -173,6 +173,104 @@ frappe.provide("organizer_toolkit.map_layers");
         );
     }
 
+    // -- saved maps ----------------------------------------------------------------
+    //
+    // Deliberately not wired into every map. A saved view is a destination -- it has its
+    // own page at /app/ot-map/<name>, which drives these through the controller that
+    // attach() hands back.
+
+    function apply_saved_map(context, saved_map) {
+        return frappe
+            .xcall("organizer_toolkit.map_layers.get_saved_map", { saved_map: saved_map })
+            .then((saved) => {
+                const wanted = saved.layers || [];
+                const rank = {};
+                wanted.forEach((name, index) => (rank[name] = index));
+
+                // Listed layers first, in their saved order; everything else keeps its
+                // relative position underneath.
+                context.order.sort(
+                    (a, b) =>
+                        (rank[a.name] === undefined ? Infinity : rank[a.name]) -
+                        (rank[b.name] === undefined ? Infinity : rank[b.name])
+                );
+
+                apply_stacking(context.map, context.order);
+                save_order(context.order);
+                rebuild_rows(context.control, context.order, context.groups);
+
+                context.order.forEach((layer) => {
+                    const group = context.groups[layer.name];
+                    const should_show = rank[layer.name] !== undefined;
+
+                    if (should_show && !context.map.hasLayer(group)) {
+                        group.addTo(context.map);
+                    } else if (!should_show && context.map.hasLayer(group)) {
+                        context.map.removeLayer(group);
+                    }
+                });
+
+                if (saved.center_latitude && saved.center_longitude) {
+                    context.map.setView(
+                        [saved.center_latitude, saved.center_longitude],
+                        saved.zoom || context.map.getZoom()
+                    );
+                } else if (saved.zoom) {
+                    context.map.setZoom(saved.zoom);
+                }
+
+                context.applied = saved.map_name;
+
+                return saved;
+            });
+    }
+
+    function save_view(context, on_saved) {
+        const centre = context.map.getCenter();
+        const visible = context.order
+            .filter((layer) => context.map.hasLayer(context.groups[layer.name]))
+            .map((layer) => layer.name);
+
+        frappe.prompt(
+            [
+                {
+                    fieldname: "map_name",
+                    fieldtype: "Data",
+                    label: __("Name this view"),
+                    reqd: 1,
+                    default: context.applied || "",
+                    description: __("{0} layer(s) showing, at zoom {1}", [
+                        visible.length,
+                        context.map.getZoom(),
+                    ]),
+                },
+            ],
+            (values) => {
+                frappe
+                    .xcall("organizer_toolkit.map_layers.save_current_view", {
+                        map_name: values.map_name,
+                        layers: visible,
+                        center_latitude: centre.lat,
+                        center_longitude: centre.lng,
+                        zoom: context.map.getZoom(),
+                    })
+                    .then((saved) => {
+                        context.applied = values.map_name;
+                        frappe.show_alert({
+                            message: __("Saved {0} with {1} layer(s)", [
+                                saved.name,
+                                saved.layers,
+                            ]),
+                            indicator: "green",
+                        });
+                        if (on_saved) on_saved(saved);
+                    });
+            },
+            __("Save This View"),
+            __("Save")
+        );
+    }
+
     // Circle is an L.circleMarker, which takes size and opacity directly. Pin and Square
     // are inline SVG in a divIcon -- passing className drops leaflet-div-icon's white box.
     function icon_for(layer) {
@@ -341,9 +439,20 @@ frappe.provide("organizer_toolkit.map_layers");
                 });
             });
 
-            order
-                .filter((layer) => layer.show_by_default)
-                .forEach((layer) => groups[layer.name].addTo(map));
+            const context = { map, control, order, groups, applied: null };
+
+            // What the saved-map page drives. Ordinary maps ignore it and just get the
+            // layer control.
+            context.apply_saved_map = (saved_map) => apply_saved_map(context, saved_map);
+            context.save_view = (on_saved) => save_view(context, on_saved);
+
+            if (!options.defer_default_layers) {
+                order
+                    .filter((layer) => layer.show_by_default)
+                    .forEach((layer) => groups[layer.name].addTo(map));
+            }
+
+            return context;
         });
     };
 

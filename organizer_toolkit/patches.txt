@@ -17,3 +17,5 @@ organizer_toolkit.patches.v1_0.seed_map_layers
 # already exist.
 organizer_toolkit.patches.v1_0.seed_map_layers #2026-08-04
 organizer_toolkit.patches.v1_0.seed_map_layers #2026-08-04-display-order
+organizer_toolkit.patches.v1_0.stamp_canvass_zones
+organizer_toolkit.patches.v1_0.resync_canvass_attempt_zones

@@ -20,6 +20,7 @@
   "latitude",
   "longitude",
   "municipal_district",
+  "zone",
   "identifiers_section",
   "municipal_parcel_id",
   "column_break_meta",
@@ -113,6 +114,15 @@
    "read_only": 1
   },
   {
+   "description": "Derived from the coordinates whenever they change, and re-derived when a boundary is redrawn.",
+   "fieldname": "zone",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Canvass Zone",
+   "options": "OT Canvass Zone",
+   "read_only": 1
+  },
+  {
    "fieldname": "identifiers_section",
    "fieldtype": "Section Break",
    "label": "Identifiers"
@@ -149,7 +159,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-29 00:00:00.000000",
+ "modified": "2026-08-05 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Address",

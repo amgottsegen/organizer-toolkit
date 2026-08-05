@@ -79,6 +79,69 @@ def get_layer_features(layer):
 	}
 
 
+# -- saved maps --------------------------------------------------------------------
+
+
+@frappe.whitelist()
+def get_saved_maps():
+	"""Every saved view, for the picker on the map. Names only -- no layer data."""
+	return frappe.get_list(
+		"OT Saved Map",
+		filters={"enabled": 1},
+		fields=["name", "map_name", "description"],
+		order_by="map_name asc",
+		limit_page_length=0,
+	)
+
+
+@frappe.whitelist()
+def get_saved_map(saved_map):
+	"""The full recipe: where to look, and which layers in which order."""
+	doc = frappe.get_cached_doc("OT Saved Map", saved_map)
+	doc.check_permission("read")
+
+	return {
+		"name": doc.name,
+		"map_name": doc.map_name,
+		"center_latitude": doc.center_latitude,
+		"center_longitude": doc.center_longitude,
+		"zoom": doc.zoom,
+		# Row order is the stacking order, first on top.
+		"layers": [row.layer for row in doc.layers if row.layer],
+	}
+
+
+@frappe.whitelist()
+def save_current_view(
+	map_name, layers=None, center_latitude=None, center_longitude=None, zoom=None
+):
+	"""Create or update a saved map from what someone is currently looking at.
+
+	Upserts on the name. Saving onto an existing map runs the normal permission check, so
+	a volunteer cannot overwrite an organizer's view by guessing its name -- they get the
+	usual write error instead.
+	"""
+	layers = frappe.parse_json(layers) or []
+
+	if frappe.db.exists("OT Saved Map", map_name):
+		doc = frappe.get_doc("OT Saved Map", map_name)
+		doc.layers = []
+	else:
+		doc = frappe.new_doc("OT Saved Map")
+		doc.map_name = map_name
+
+	doc.center_latitude = center_latitude
+	doc.center_longitude = center_longitude
+	doc.zoom = zoom
+
+	for layer in layers:
+		doc.append("layers", {"layer": layer})
+
+	doc.save()
+
+	return {"name": doc.name, "layers": len(doc.layers)}
+
+
 @frappe.whitelist()
 def get_mappable_doctypes():
 	"""Doctypes a map can plot: a Geolocation field named `location`, or a lat/lon pair.

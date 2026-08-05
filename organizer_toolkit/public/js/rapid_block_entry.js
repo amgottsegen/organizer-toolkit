@@ -17,6 +17,21 @@ organizer_toolkit.rapid_block_entry = function(options) {
         title: __("Rapid Block Entry"),
         size: "small",
         fields: [
+            // Whether doors count toward a walk list is invisible otherwise -- the
+            // dialog looks identical either way, and the difference only shows up later
+            // in that list's progress.
+            ...(options.walk_list
+                ? [
+                      {
+                          fieldname: "walk_list_html",
+                          fieldtype: "HTML",
+                          options: `<p class="text-muted small" style="margin-bottom:0">${__(
+                              "Counting toward walk list {0}.",
+                              [`<b>${frappe.utils.escape_html(options.walk_list)}</b>`]
+                          )}</p>`,
+                      },
+                  ]
+                : []),
             {
                 fieldname: "block_sb",
                 fieldtype: "Section Break",

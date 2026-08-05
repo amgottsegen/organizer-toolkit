@@ -14,6 +14,28 @@ class OTWalkList(Document):
 	def validate(self):
 		self.drop_duplicate_addresses()
 
+	def on_update(self):
+		self.propagate_zone()
+
+	def propagate_zone(self):
+		"""Carry this list's zone onto the doors already knocked from it.
+
+		`fetch_from` copies once, at save time, so doors worked before the zone was filled
+		in would stay unlabelled forever. This is the only thing that moves a doorknock's
+		zone -- redrawing a boundary deliberately does not, so the label stays the zone
+		the door was actually canvassed for.
+		"""
+		if not self.has_value_changed("zone"):
+			return
+
+		frappe.db.set_value(
+			"OT Canvass Attempt",
+			{"walk_list": self.name},
+			"zone",
+			self.zone,
+			update_modified=False,
+		)
+
 	def drop_duplicate_addresses(self):
 		"""One row per door.
 
@@ -66,13 +88,16 @@ def populate_from_zone(walk_list, zone=None):
 
 
 @frappe.whitelist()
-def create_from_addresses(addresses, list_name, canvass_date=None, assigned_to=None):
+def create_from_addresses(addresses, list_name, canvass_date=None, assigned_to=None, zone=None):
 	"""Build a walk list out of an explicit selection of doors.
 
 	The zone path covers "everything inside this boundary"; this covers everything else --
 	a handful of streets, the doors nobody answered last week, a filtered list. Ungeocoded
 	addresses are kept: unlike zone population, the selection says which doors are meant,
 	so coordinates are not needed to decide.
+
+	The zone is optional but worth setting: it becomes the label on every doorknock logged
+	from this list, and it is the only record of which turf the work belonged to.
 	"""
 	addresses = frappe.parse_json(addresses) or []
 
@@ -83,6 +108,7 @@ def create_from_addresses(addresses, list_name, canvass_date=None, assigned_to=N
 	doc.list_name = list_name
 	doc.canvass_date = canvass_date or nowdate()
 	doc.assigned_to = assigned_to
+	doc.zone = zone
 
 	for address in addresses:
 		doc.append("addresses", {"address": address})

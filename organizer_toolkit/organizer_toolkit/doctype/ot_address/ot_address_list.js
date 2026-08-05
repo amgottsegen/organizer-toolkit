@@ -83,6 +83,16 @@ function createWalkList(listview) {
                 label: __("Assigned To"),
                 options: "User",
             },
+            {
+                fieldname: "zone",
+                fieldtype: "Link",
+                label: __("Canvass Zone"),
+                options: "OT Canvass Zone",
+                // Not just bookkeeping: every doorknock logged from this list takes its
+                // zone from here, and that is the only record of which turf the work
+                // belonged to once boundaries are redrawn.
+                description: __("Labels every doorknock logged from this list."),
+            },
         ],
         primary_action_label: __("Create"),
         primary_action(values) {
@@ -95,6 +105,7 @@ function createWalkList(listview) {
                     list_name: values.list_name,
                     canvass_date: values.canvass_date,
                     assigned_to: values.assigned_to,
+                    zone: values.zone,
                 },
                 freeze: true,
                 freeze_message: __("Building the walk list..."),

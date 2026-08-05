@@ -3,7 +3,7 @@
  "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:zone_name",
- "creation": "2026-07-29 00:00:00.000000",
+ "creation": "2026-07-29 00:00:00",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -67,7 +67,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-29 00:00:00.000000",
+ "modified": "2026-08-05 00:00:47.982471",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Canvass Zone",
@@ -110,6 +110,7 @@
  ],
  "row_format": "Dynamic",
  "rows_threshold_for_grid_search": 20,
+ "search_fields": "neighbourhood, day_of_week",
  "sort_field": "zone_name",
  "sort_order": "ASC",
  "states": []
