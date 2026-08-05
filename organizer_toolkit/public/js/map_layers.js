@@ -494,6 +494,13 @@ frappe.provide("organizer_toolkit.map_layers");
             setup_view() {
                 super.setup_view();
                 organizer_toolkit.map_layers.attach(this.map);
+
+                // Frappe's MapView replaces ListView.setup_view rather than extending
+                // it, so the listview_settings.onload hook every other view honours
+                // never fires on a map -- which is why a map view has no toolbar of its
+                // own, and no way back to the list that keeps your filters. settings is
+                // populated in setup_defaults, which runs earlier in the same chain.
+                this.settings && this.settings.onload && this.settings.onload(this);
             }
         };
         frappe.views.MapView._ot_patched = true;

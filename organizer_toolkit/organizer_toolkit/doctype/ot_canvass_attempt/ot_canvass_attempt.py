@@ -69,37 +69,63 @@ class OTCanvassAttempt(Document):
 		).insert()
 
 	def record_event_rsvp(self):
+		"""Insert a standalone RSVP rather than appending to the constituent.
+
+		This is what lets a volunteer record "yes, I'll be there" without write access to
+		the person's whole record -- as a child table it inherited the constituent's
+		permissions, so an RSVP cost the same access as editing their phone number.
+		"""
 		if not self.event_rsvp:
 			return
 
-		# OT Event RSVP is still a child table of OT Constituent, so this appends a row
-		# rather than inserting a record. Phase 4 promotes it to a standalone doctype;
-		# this method is the thing that changes then.
-		constituent = frappe.get_doc("OT Constituent", self.constituent)
-
-		if any(row.event == self.event_rsvp for row in constituent.event_rsvps):
+		if frappe.db.exists(
+			"OT Event RSVP", {"constituent": self.constituent, "event": self.event_rsvp}
+		):
 			return
 
-		row = constituent.append("event_rsvps")
-		row.event = self.event_rsvp
-		row.origin = "Doorknocking"
-		constituent.save()
+		frappe.get_doc(
+			{
+				"doctype": "OT Event RSVP",
+				"constituent": self.constituent,
+				"event": self.event_rsvp,
+				"rsvp": "Yes",
+				"origin": "Doorknocking",
+			}
+		).insert()
 
 	def sync_volunteer_activities(self):
+		"""Same promotion as the RSVPs, for the same reason.
+
+		The child table on this doctype stays -- a canvasser already owns the doorknock
+		they are filling in, so it needs no extra permission there. It is only the
+		constituent-side copy that had to become records.
+		"""
 		if not self.volunteers_for:
 			return
 
-		constituent = frappe.get_doc("OT Constituent", self.constituent)
-		existing = {row.activity for row in constituent.volunteers_for}
-		added = False
+		existing = set(
+			frappe.get_all(
+				"OT Volunteer Interest",
+				filters={"constituent": self.constituent},
+				pluck="activity",
+				limit_page_length=0,
+			)
+		)
 
 		for row in self.volunteers_for:
-			if row.activity and row.activity not in existing:
-				constituent.append("volunteers_for", {"activity": row.activity})
-				added = True
+			if not row.activity or row.activity in existing:
+				continue
 
-		if added:
-			constituent.save()
+			frappe.get_doc(
+				{
+					"doctype": "OT Volunteer Interest",
+					"constituent": self.constituent,
+					"activity": row.activity,
+					"recorded_on": get_datetime(self.canvassed_on or now_datetime()).date(),
+					"source": "Doorknocking",
+				}
+			).insert()
+			existing.add(row.activity)
 
 	def infer_outcome(self):
 		"""Default to Answered when a constituent was recorded.

@@ -246,26 +246,51 @@ class TestCanvassEscalation(FrappeTestCase):
 			).insert()
 
 	def test_event_rsvp_is_recorded_once(self):
+		"""A standalone record now, not a row inside the constituent -- which is what
+		lets a volunteer record one without write access to the whole person."""
 		attempt = self._attempt(event_rsvp=self.event.name)
 		attempt.notes = "second save"
 		attempt.save()
 
-		constituent = frappe.get_doc("OT Constituent", self.constituent.name)
-		rsvps = [r for r in constituent.event_rsvps if r.event == self.event.name]
+		rsvps = frappe.get_all(
+			"OT Event RSVP",
+			filters={"constituent": self.constituent.name, "event": self.event.name},
+			fields=["name", "origin", "rsvp"],
+		)
 
 		self.assertEqual(len(rsvps), 1)
 		self.assertEqual(rsvps[0].origin, "Doorknocking")
+		self.assertEqual(rsvps[0].rsvp, "Yes")
 
-	def test_volunteer_activities_merge_into_the_constituent(self):
+	def test_volunteer_activities_become_their_own_records(self):
 		attempt = self._attempt(
 			volunteers_for=[{"activity": "Doorknocking"}, {"activity": "Phonebanking"}]
 		)
 		attempt.save()
 
-		constituent = frappe.get_doc("OT Constituent", self.constituent.name)
-		activities = sorted(r.activity for r in constituent.volunteers_for)
+		activities = sorted(
+			frappe.get_all(
+				"OT Volunteer Interest",
+				filters={"constituent": self.constituent.name},
+				pluck="activity",
+			)
+		)
 
 		self.assertEqual(activities, ["Doorknocking", "Phonebanking"])
+
+	def test_volunteer_activities_are_not_duplicated_on_resave(self):
+		"""Asking the same question at a later visit is one fact, not two."""
+		attempt = self._attempt(volunteers_for=[{"activity": "Doorknocking"}])
+		attempt.notes = "second save"
+		attempt.save()
+
+		self.assertEqual(
+			frappe.db.count(
+				"OT Volunteer Interest",
+				{"constituent": self.constituent.name, "activity": "Doorknocking"},
+			),
+			1,
+		)
 
 	def test_nothing_escalates_without_a_constituent(self):
 		"""No person means nothing to attach a signature or RSVP to."""

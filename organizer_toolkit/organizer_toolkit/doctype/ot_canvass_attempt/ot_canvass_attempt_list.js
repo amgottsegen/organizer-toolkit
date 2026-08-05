@@ -20,12 +20,17 @@ frappe.listview_settings["OT Canvass Attempt"] = {
         ];
     },
 
+    // Runs on the map view too -- see the MapView patch in public/js/map_layers.js.
     onload: function(listview) {
-        add_rapid_entry_button(listview);
-        add_my_doorknocks_toggle(listview);
-        add_map_button(listview);
+        add_toolbar(listview);
     },
 };
+
+function add_toolbar(listview) {
+    add_rapid_entry_button(listview);
+    add_my_doorknocks_toggle(listview);
+    add_view_switch_button(listview);
+}
 
 function add_rapid_entry_button(listview) {
     listview.page.add_inner_button(__("Rapid Entry"), function() {
@@ -40,18 +45,9 @@ function add_rapid_entry_button(listview) {
     }).addClass("btn-primary");
 }
 
-// filter_area.get() yields [doctype, fieldname, operator, value].
-function current_filter_value(listview, fieldname) {
-    const filter = listview.filter_area
-        .get()
-        .find((f) => f[1] === fieldname && f[2] === "=");
-
-    return filter ? filter[3] : null;
-}
-
 // The sidebar's "Created By" grouping only exists on desktop -- the whole side section
-// is dropped on small screens, which is also why the Map link is unreachable there. For
-// a canvasser on a phone this button is the only way to see just their own work.
+// is dropped on small screens, which is also why the view links are unreachable there.
+// For a canvasser on a phone this button is the only way to see just their own work.
 function add_my_doorknocks_toggle(listview) {
     const FIELD = "owner";
 
@@ -72,14 +68,47 @@ function add_my_doorknocks_toggle(listview) {
         }
         // Rebuild so the button reflects the state it just moved to.
         listview.page.clear_inner_toolbar();
-        add_rapid_entry_button(listview);
-        add_my_doorknocks_toggle(listview);
-        add_map_button(listview);
+        add_toolbar(listview);
     });
 }
 
-function add_map_button(listview) {
-    listview.page.add_inner_button(__("Map"), function() {
-        frappe.set_route("List", listview.doctype, "Map");
+// Switching views loses your filters: view_user_settings is keyed by view name
+// (list_view.js), so the list and the map each remember their own set. Carrying the
+// current filters across as route options closes that -- before_refresh clears the
+// target view's filter area and applies these instead.
+function add_view_switch_button(listview) {
+    const on_map = listview.view_name === "Map";
+
+    listview.page.add_inner_button(on_map ? __("List") : __("Map"), function() {
+        const filters = route_filters(listview);
+
+        if (on_map) {
+            frappe.set_route("List", listview.doctype, filters);
+        } else {
+            frappe.set_route("List", listview.doctype, "Map", filters);
+        }
     });
+}
+
+// filter_area.get() yields [doctype, fieldname, operator, value].
+function route_filters(listview) {
+    const filters = {};
+
+    listview.filter_area.get().forEach(([doctype, fieldname, operator, value]) => {
+        // Route options address the doctype's own columns; a filter reaching into a
+        // child table has no representation here and is dropped rather than mangled.
+        if (doctype !== listview.doctype) return;
+
+        filters[fieldname] = operator === "=" ? value : [operator, value];
+    });
+
+    return filters;
+}
+
+function current_filter_value(listview, fieldname) {
+    const filter = listview.filter_area
+        .get()
+        .find((f) => f[1] === fieldname && f[2] === "=");
+
+    return filter ? filter[3] : null;
 }

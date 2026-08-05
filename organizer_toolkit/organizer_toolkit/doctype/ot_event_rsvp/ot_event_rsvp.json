@@ -1,11 +1,15 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
+ "autoname": "hash",
  "creation": "2026-03-10 11:47:52.291642",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "constituent",
+  "constituent_name",
   "event",
   "last_contact_result",
   "rsvp",
@@ -20,8 +24,25 @@
  ],
  "fields": [
   {
+   "fieldname": "constituent",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Constituent",
+   "options": "OT Constituent",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "constituent.full_name",
+   "fieldname": "constituent_name",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "label": "Name",
+   "read_only": 1
+  },
+  {
    "allow_in_quick_entry": 1,
-   "columns": 2,
    "fieldname": "event",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -30,7 +51,6 @@
    "options": "OT Event"
   },
   {
-   "columns": 1,
    "fieldname": "rsvp",
    "fieldtype": "Select",
    "in_filter": 1,
@@ -45,7 +65,6 @@
    "label": "RSVP Notes"
   },
   {
-   "columns": 2,
    "fieldname": "last_contact_result",
    "fieldtype": "Select",
    "in_list_view": 1,
@@ -95,14 +114,56 @@
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
- "istable": 1,
+ "istable": 0,
  "links": [],
- "modified": "2026-05-13 14:33:39.080830",
+ "modified": "2026-08-05 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Event RSVP",
  "owner": "Administrator",
- "permissions": [],
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OT Organizer",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OT Volunteer"
+  },
+  {
+   "create": 1,
+   "export": 1,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OT Volunteer",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
  "row_format": "Dynamic",
  "rows_threshold_for_grid_search": 20,
  "sort_field": "modified",

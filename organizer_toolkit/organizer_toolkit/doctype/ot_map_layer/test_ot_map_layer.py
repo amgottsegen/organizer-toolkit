@@ -142,50 +142,49 @@ class TestOTMapLayer(FrappeTestCase):
 	# -- filters that reach into a child table ------------------------------------
 
 	def test_a_child_table_filter_selects_the_right_people(self):
-		""""Constituents who volunteered for Doorknocking" filters on volunteers_for,
-		which lives in a child table. get_coords builds a bare SELECT ... FROM tabDocType
-		with no joins, so the condition it compiles names a table that is not in the
-		query -- MariaDB rejects it as an unknown column. The names are resolved first
-		instead, through get_list, which does know how to join."""
-		activity = self._activity()
-		volunteer = self._constituent("Willing Volunteer", volunteers_for=[activity])
+		"""A filter naming another table -- here the languages child table -- compiles to
+		a condition get_coords cannot run: it builds a bare SELECT ... FROM tabDocType
+		with no joins, so MariaDB rejects the column as unknown. The names are resolved
+		first instead, through get_list, which does know how to join."""
+		language = self._language()
+		speaker = self._constituent("Willing Volunteer", languages=[language])
 		self._constituent("Uninvolved Person")
 
 		layer = self._layer(
 			layer_name="Test Volunteers",
 			source_doctype="OT Constituent",
 			label_field="full_name",
-			filters_json=frappe.as_json([["OT Activity Child", "activity", "=", activity]]),
+			filters_json=frappe.as_json([["OT Language Child", "language", "=", language]]),
 		)
 
 		labels = [f["properties"]["label"] for f in get_layer_features(layer.name)["features"]]
 
-		self.assertIn(volunteer.full_name, labels)
+		self.assertIn(speaker.full_name, labels)
 		self.assertNotIn("Uninvolved Person", labels)
 
 	def test_a_child_table_filter_matching_nobody_returns_nothing(self):
 		"""The dangerous failure: resolving to an empty name list and then passing no
 		filter at all, which would quietly plot every constituent on the map."""
 		self._constituent("Not A Volunteer")
-		activity = self._activity()
+		language = self._language()
 
 		layer = self._layer(
 			layer_name="Test Empty Volunteers",
 			source_doctype="OT Constituent",
-			filters_json=frappe.as_json([["OT Activity Child", "activity", "=", activity]]),
+			filters_json=frappe.as_json([["OT Language Child", "language", "=", language]]),
 		)
 
 		self.assertEqual(get_layer_features(layer.name)["features"], [])
 
-	def _activity(self):
-		name = "Test Map Layer Activity"
+	def _language(self):
+		name = "Test Map Layer Language"
 
-		if not frappe.db.exists("OT Activity", name):
-			frappe.get_doc({"doctype": "OT Activity", "activity_name": name}).insert()
+		if not frappe.db.exists("OT Language", name):
+			frappe.get_doc({"doctype": "OT Language", "language": name}).insert()
 
 		return name
 
-	def _constituent(self, full_name, volunteers_for=None):
+	def _constituent(self, full_name, languages=None):
 		first_name, _, last_name = full_name.partition(" ")
 		address = self._address(f"{abs(hash(full_name)) % 9000} Constituent St")
 
@@ -198,8 +197,8 @@ class TestOTMapLayer(FrappeTestCase):
 			}
 		)
 
-		for activity in volunteers_for or []:
-			doc.append("volunteers_for", {"activity": activity})
+		for language in languages or []:
+			doc.append("other_languages", {"language": language})
 
 		return doc.insert()
 

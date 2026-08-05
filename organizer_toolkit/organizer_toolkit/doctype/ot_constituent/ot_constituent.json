@@ -27,17 +27,13 @@
   "resident_type",
   "address",
   "location",
-  "engagement_section",
-  "volunteers_for",
   "dues_and_lots_section",
   "date_joined",
   "dues_note",
   "next_dues_payment",
   "column_break_umkn",
   "lot_address",
-  "lot_status",
-  "event_rsvps_tab",
-  "event_rsvps"
+  "lot_status"
  ],
  "fields": [
   {
@@ -64,23 +60,11 @@
    "label": "Mobile Phone"
   },
   {
-   "allow_bulk_edit": 1,
-   "fieldname": "event_rsvps",
-   "fieldtype": "Table",
-   "label": "Event RSVPs",
-   "options": "OT Event RSVP"
-  },
-  {
    "default": "+1-",
    "fieldname": "home_phone",
    "fieldtype": "Phone",
    "in_preview": 1,
    "label": "Home Phone"
-  },
-  {
-   "fieldname": "event_rsvps_tab",
-   "fieldtype": "Tab Break",
-   "label": "Event RSVPs"
   },
   {
    "allow_in_quick_entry": 1,
@@ -215,25 +199,34 @@
    "fieldname": "image",
    "fieldtype": "Attach Image",
    "label": "Photo"
-  },
-  {
-   "fieldname": "engagement_section",
-   "fieldtype": "Section Break",
-   "label": "Engagement"
-  },
-  {
-   "description": "Activities this person has said they are willing to help with.",
-   "fieldname": "volunteers_for",
-   "fieldtype": "Table MultiSelect",
-   "label": "Volunteers For",
-   "options": "OT Activity Child"
   }
  ],
  "grid_page_length": 50,
  "image_field": "image",
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2026-08-04 20:00:00.000000",
+ "links": [
+  {
+   "group": "Engagement",
+   "link_doctype": "OT Event RSVP",
+   "link_fieldname": "constituent"
+  },
+  {
+   "group": "Engagement",
+   "link_doctype": "OT Volunteer Interest",
+   "link_fieldname": "constituent"
+  },
+  {
+   "group": "Engagement",
+   "link_doctype": "OT Petition Signature",
+   "link_fieldname": "constituent"
+  },
+  {
+   "group": "Canvassing",
+   "link_doctype": "OT Canvass Attempt",
+   "link_fieldname": "constituent"
+  }
+ ],
+ "modified": "2026-08-05 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "Organizer Toolkit",
  "name": "OT Constituent",
@@ -262,23 +255,6 @@
   },
   {
    "create": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "OT Volunteer",
-   "share": 1,
-   "write": 1
-  },
-  {
-   "export": 1,
-   "permlevel": 1,
-   "read": 1,
-   "role": "OT Volunteer"
-  },
-  {
-   "create": 1,
    "delete": 1,
    "email": 1,
    "export": 1,
@@ -296,6 +272,23 @@
    "permlevel": 1,
    "read": 1,
    "role": "System Manager"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OT Volunteer"
+  },
+  {
+   "create": 1,
+   "export": 1,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OT Volunteer",
+   "write": 1
   }
  ],
  "quick_entry": 1,

@@ -128,8 +128,19 @@ def remove_tags_from_docs(tags, doctype, doc_names):
 
 @frappe.whitelist()
 def add_event_rsvp(constituent, event_name):
-	doc = frappe.get_doc("OT Constituent", constituent)
-	rsvp = doc.append("event_rsvps")
-	rsvp.event = event_name
+	"""Invite someone to an event.
 
-	doc.save()
+	OT Event RSVP is a standalone doctype now, so this inserts a record instead of
+	appending to the constituent -- which means it no longer needs write access to the
+	person, only create access to the RSVP.
+	"""
+	existing = frappe.db.get_value(
+		"OT Event RSVP", {"constituent": constituent, "event": event_name}, "name"
+	)
+
+	if existing:
+		return existing
+
+	return frappe.get_doc(
+		{"doctype": "OT Event RSVP", "constituent": constituent, "event": event_name}
+	).insert().name
